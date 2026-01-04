@@ -1,0 +1,65 @@
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { RowSelectionState } from "@tanstack/react-table";
+import { AbstractTableController, FiltroBusca } from "@/commons/AbstractTableController/AbstractTableController";
+
+export function useGenericTable<T>(controlador: AbstractTableController<T>, forcarRecarga?: boolean | number) {
+  const [dados, setDados] = useState<T[]>([]);
+  const [estaCarregando, setEstaCarregando] = useState(true);
+  const [totalRegistros, setTotalRegistros] = useState(0);
+  const [paginacao, setPaginacao] = useState({ pageIndex: 0, pageSize: 12 });
+  const [selecaoLinhas, setSelecaoLinhas] = useState<RowSelectionState>({});
+  const [textoBuscaDigitado, setTextoBuscaDigitado] = useState("");
+  const [campoBuscaSelecionado, setCampoBuscaSelecionado] = useState<string>(
+    controlador.obterCamposPesquisaveis()[0]?.value || ""
+  );
+  const [filtroAtivo, setFiltroAtivo] = useState<FiltroBusca | undefined>(undefined);
+
+  const buscarDados = useCallback(async () => {
+    setEstaCarregando(true);
+    try {
+      const resultado = await controlador.fetchData(paginacao.pageIndex, paginacao.pageSize, filtroAtivo);
+      setDados(resultado.data);
+      setTotalRegistros(resultado.total);
+    } catch (erro) {
+      console.error("Erro ao buscar dados:", erro);
+    } finally {
+      setEstaCarregando(false);
+    }
+  }, [controlador, paginacao.pageIndex, paginacao.pageSize, filtroAtivo]);
+
+  useEffect(() => {
+    buscarDados();
+  }, [buscarDados, forcarRecarga]);
+
+  const aplicarFiltroDeBusca = () => {
+    setPaginacao((prev) => ({ ...prev, pageIndex: 0 }));
+    setSelecaoLinhas({});
+    if (textoBuscaDigitado.trim()) {
+      setFiltroAtivo({ field: campoBuscaSelecionado, value: textoBuscaDigitado });
+    } else {
+      setFiltroAtivo(undefined);
+    }
+  };
+
+  const limparBusca = () => {
+    setTextoBuscaDigitado("");
+    setFiltroAtivo(undefined);
+    setPaginacao((prev) => ({ ...prev, pageIndex: 0 }));
+  };
+
+  const itensSelecionados = useMemo(() => {
+    return Object.keys(selecaoLinhas).map((index) => dados[Number(index)]).filter(Boolean);
+  }, [selecaoLinhas, dados]);
+
+  return {
+    dados, estaCarregando, totalRegistros,
+    paginacao, setPaginacao,
+    selecaoLinhas, setSelecaoLinhas,
+    textoBuscaDigitado, setTextoBuscaDigitado,
+    campoBuscaSelecionado, setCampoBuscaSelecionado,
+    filtroAtivo, aplicarFiltroDeBusca, limparBusca,
+    itensSelecionados,
+    itemUnicoSelecionado: itensSelecionados.length === 1 ? itensSelecionados[0] : null,
+    existeSelecao: itensSelecionados.length > 0
+  };
+}

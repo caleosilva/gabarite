@@ -1,0 +1,92 @@
+import { ColumnDef } from "@tanstack/react-table";
+import { ReactNode } from "react";
+import { Plus, Pencil, Eye, Trash2 } from "lucide-react"; 
+import { ConstrutorBotao, ConfiguracaoBotao } from "@/commons/ConstrutorBotao/ConstrutorBotao";
+// --- Contratos de Dados ---
+
+// Formato esperado da resposta da API para paginação
+export interface ResultadoPaginado<T> {
+  data: T[];
+  total: number;
+}
+
+// Filtro simples de chave/valor
+export interface FiltroBusca {
+  field: string;
+  value: string;
+}
+
+// Agrupa os construtores dos 4 botões padrões (CRUD)
+export class ConstrutorAcoesPadrao {
+  public adicionar = new ConstrutorBotao("Adicionar", <Plus className="h-4 w-4" />, "default");
+  public editar = new ConstrutorBotao("Editar", <Pencil className="h-4 w-4" />, "secondary");
+  public visualizar = new ConstrutorBotao("Visualizar", <Eye className="h-4 w-4" />, "secondary");
+  public excluir = new ConstrutorBotao("Excluir", <Trash2 className="h-4 w-4" />, "destructive");
+}
+
+// Definição para botões extras/personalizados
+export interface BotaoAcao {
+  label: string;
+  onClick: () => void;
+  variant?: ConfiguracaoBotao['variant'];
+  disabled?: boolean;
+  icon?: ReactNode;
+  tooltip?: string;
+}
+
+// --- Classe Base do Controlador ---
+
+export abstract class AbstractTableController<T> {
+  
+  // 1. Definições Obrigatórias
+
+  // Retorna as colunas do TanStack Table
+  abstract obterColunas(): ColumnDef<T>[];
+
+  // Retorna campos para o select de busca (Label + Value)
+  abstract obterCamposPesquisaveis(): { label: string; value: string }[];
+  
+  // Busca dados na API retornando lista e total
+  abstract fetchData(
+    indicePagina: number,
+    tamanhoPagina: number,
+    filtro?: FiltroBusca
+  ): Promise<ResultadoPaginado<T>>;
+
+
+  // 2. Configuração de Botões Padrão (Opcional)
+  
+  // Hook para personalizar os botões padrão (ex: mudar ícone, esconder 'excluir')
+  configurarAcoesPadrao(builder: ConstrutorAcoesPadrao): void {
+    // Implementação padrão vazia (mantém original)
+  }
+
+  // Gera a configuração final para ser usada pela View
+  getFinalStandardConfigs(): { add: ConfiguracaoBotao, edit: ConfiguracaoBotao, view: ConfiguracaoBotao, delete: ConfiguracaoBotao } {
+    const builder = new ConstrutorAcoesPadrao();
+    
+    this.configurarAcoesPadrao(builder);
+    
+    return {
+      add: builder.adicionar.obterConfiguracao(),
+      edit: builder.editar.obterConfiguracao(),
+      view: builder.visualizar.obterConfiguracao(),
+      delete: builder.excluir.obterConfiguracao(),
+    };
+  }
+
+
+  // 3. Ações do Usuário (Obrigatórias)
+
+  abstract aoClicarAdicionar(): void;
+  abstract aoClicarEditar(item: T): void;
+  abstract aoClicarVisualizar(item: T): void;
+  abstract aoClicarExcluir(item: T): void;
+
+
+  // 4. Ações Extras
+  // Lista de botões além do CRUD (ex: Exportar, Baixar PDF)
+  obterAcoesPersonalizadas(itemSelecionado: T | null): BotaoAcao[] {
+    return [];
+  }
+}
