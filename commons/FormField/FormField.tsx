@@ -151,17 +151,18 @@ export default function FormFieldBasic<TFormValues extends FieldValues>({
               disabled={disabled}
               value={formatarValor(field.value)}
               onChange={(e) => {
-                // Conversão de valor para tipos específicos
                 let novoValor: any = e.target.value;
                 
                 if (type === 'number' && novoValor !== '') {
                   novoValor = parseFloat(novoValor);
-                  if (isNaN(novoValor)) novoValor = '';
+                  if (isNaN(novoValor))
+                    novoValor = '';
                 }
                 
                 field.onChange(novoValor);
                 aoMudar?.(novoValor);
               }}
+              
               // Atributos HTML de validação
               maxLength={maxLength}
               minLength={minLength}

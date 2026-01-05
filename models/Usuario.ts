@@ -18,17 +18,7 @@ const usuarioSchema = new mongoose.Schema(
         isAdmin: { type: Boolean, default: false },
         
         // --- Informações de Perfil de Estudo ---
-        fotoUrl: { type: String }, // Para o avatar do usuário
-        cargoAlvo: { type: String }, // Ex: "Analista Judiciário"
-        interesses: [{ type: String }], // Ex: ["Direito Administrativo", "TI"]
-        
-        // --- Estatísticas Acumuladas (Redundância para performance) ---
-        estatisticasGerais: {
-            totalQuestoesRespondidas: { type: Number, default: 0 },
-            totalAcertos: { type: Number, default: 0 },
-            totalErros: { type: Number, default: 0 },
-            pontosExperiencia: { type: Number, default: 0 } // Para sistema de níveis/rankings
-        },
+        fotoUrl: { type: String },
 
         // --- Controle de Sistema --
         excluido: { type: Boolean, default: false, required: true }
@@ -45,3 +35,14 @@ usuarioSchema.index({ email: 1 });
 const Usuario = mongoose.models.Usuarios || mongoose.model("Usuarios", usuarioSchema, 'usuarios');
 
 export default Usuario;
+
+
+// 1. Extrai os campos definidos
+type UsuarioCampos = mongoose.InferSchemaType<typeof usuarioSchema>;
+
+// 2. Cria o tipo final incluindo o _id e os timestamps
+export type UsuarioType = UsuarioCampos & { 
+  _id: mongoose.Types.ObjectId; 
+  createdAt?: Date; 
+  updatedAt?: Date; 
+};

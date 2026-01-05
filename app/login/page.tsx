@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +17,8 @@ import { loginSchema, LoginValues } from "./loginSchema";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
+import CadastrarEditarUsuario from "@/app/usuario/dialogs/cadastrarEditar/CadastrarEditarUsuario";
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 
@@ -24,6 +27,9 @@ export default function LoginPage() {
   const { status } = useSession();
   const [error, setError] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  const [openCadastro, setOpenCadastro] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   // Redireciona se já estiver autenticado
   React.useEffect(() => {
@@ -66,34 +72,35 @@ export default function LoginPage() {
     // }
   };
 
- return (
-    <div className="container relative min-h-screen flex items-center justify-center lg:px-0 bg-gradient-to-br from-background to-muted/20">
+  return (
+  // Alteração: Removi 'container' e adicionei 'w-full'
+  <div className="relative min-h-screen w-full flex items-center justify-center lg:px-0 bg-gradient-to-br from-background to-muted/20">
+    
+    {/* Marca d'água decorativa */}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-5">
+      <BookOpen className="absolute top-10 left-10 h-32 w-32 rotate-12" />
+      <BookOpen className="absolute bottom-20 right-20 h-40 w-40 -rotate-12" />
+    </div>
+
+    {/* Alteração: Removi 'mx-auto' (o flex-center do pai já cuida disso) */}
+    <div className="flex w-full flex-col justify-center space-y-6 sm:w-[420px] relative z-10 px-4">
       
-      {/* Marca d'água decorativa */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-5">
-        <BookOpen className="absolute top-10 left-10 h-32 w-32 rotate-12" />
-        <BookOpen className="absolute bottom-20 right-20 h-40 w-40 -rotate-12" />
-      </div>
+      <Card className="border-2 shadow-lg"> {/* Adicionado um shadow opcional para destacar */}
+        <CardHeader className="space-y-1 text-center pb-4">
+          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+            <BookOpen className="h-6 w-6 text-primary" />
+          </div>
+          
+          <CardTitle className="text-2xl font-bold tracking-tight">
+            Bem-vindo ao Gabarite
+          </CardTitle>
+          
+          <CardDescription className="text-sm">
+            Acesse sua conta para continuar estudando
+          </CardDescription>
+        </CardHeader>
 
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[420px] relative z-10">
-        
-        <Card className="border-2">
-          <CardHeader className="space-y-1 text-center pb-4">
-            {/* Logo/Ícone */}
-            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-              <BookOpen className="h-6 w-6 text-primary" />
-            </div>
-            
-            <CardTitle className="text-2xl font-bold tracking-tight">
-              Bem-vindo ao Gabarite
-            </CardTitle>
-            
-            <CardDescription className="text-sm">
-              Acesse sua conta para continuar estudando
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent className="space-y-4">
+        <CardContent className="space-y-4">
 
             {/* Formulário */}
             <Form {...form}>
@@ -153,35 +160,26 @@ export default function LoginPage() {
             <Button 
               variant="outline" 
               className="w-full" 
-              asChild
+              onClick={() => setOpenCadastro(true)}
               disabled={isSubmitting}
             >
-              <Link href="/cadastro">
-                Criar nova conta
-              </Link>
+              Criar nova conta
             </Button>
+
+            <CadastrarEditarUsuario 
+              open={openCadastro} 
+              setOpen={setOpenCadastro} 
+              update={update}
+              setUpdate={setUpdate}
+            />
           </CardContent>
+      </Card>
 
-          <CardFooter className="flex flex-col space-y-4">
-            {/* Termos */}
-            <p className="text-center text-xs text-muted-foreground">
-              Ao continuar, você concorda com nossos{" "}
-              <Link href="/termos" className="underline hover:text-primary transition-colors">
-                Termos de Uso
-              </Link>{" "}
-              e{" "}
-              <Link href="/privacidade" className="underline hover:text-primary transition-colors">
-                Política de Privacidade
-              </Link>
-            </p>
-          </CardFooter>
-        </Card>
-
-        {/* Footer */}
-        <p className="text-center text-xs text-muted-foreground">
-          Gabarite &copy; {new Date().getFullYear()} - Todos os direitos reservados
-        </p>
-      </div>
+      {/* Footer */}
+      <p className="text-center text-xs text-muted-foreground">
+        Gabarite &copy; {new Date().getFullYear()} - Todos os direitos reservados
+      </p>
     </div>
-  );
+  </div>
+);
 }
