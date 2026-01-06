@@ -13,6 +13,7 @@ export function useGenericTable<T>(controlador: AbstractTableController<T>, forc
     controlador.obterCamposPesquisaveis()[0]?.value || ""
   );
   const [filtroAtivo, setFiltroAtivo] = useState<FiltroBusca | undefined>(undefined);
+  const [erroAtivo, setErroAtivo] = useState<{titulo: string, msg: string} | null>(null);
 
   const buscarDados = useCallback(async () => {
     setEstaCarregando(true);
@@ -20,7 +21,11 @@ export function useGenericTable<T>(controlador: AbstractTableController<T>, forc
       const resultado = await controlador.fetchData(paginacao.pageIndex, paginacao.pageSize, filtroAtivo);
       setDados(resultado.data);
       setTotalRegistros(resultado.total);
-    } catch (erro) {
+    } catch (erro: any) {
+      setErroAtivo({
+        titulo: "Erro de Carregamento",
+        msg: erro.mensagem || "Não foi possível sincronizar os dados."
+      });
       console.error("Erro ao buscar dados:", erro);
     } finally {
       setEstaCarregando(false);
@@ -60,6 +65,7 @@ export function useGenericTable<T>(controlador: AbstractTableController<T>, forc
     filtroAtivo, aplicarFiltroDeBusca, limparBusca,
     itensSelecionados,
     itemUnicoSelecionado: itensSelecionados.length === 1 ? itensSelecionados[0] : null,
-    existeSelecao: itensSelecionados.length > 0
+    existeSelecao: itensSelecionados.length > 0,
+    erroAtivo, setErroAtivo
   };
 }

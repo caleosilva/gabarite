@@ -10,7 +10,21 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Search, XCircle } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
 
-export function GenericPage<T>({ controlador, titulo, forcarRecarga }: any) {
+import { AlertCircle } from "lucide-react";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+export function GenericTablePage<T>({ controlador, titulo, forcarRecarga }: any) {
   const state = useGenericTable<T>(controlador, forcarRecarga);
   const botoesPadrao = useMemo(() => controlador.getFinalStandardConfigs(), [controlador]);
 
@@ -108,6 +122,22 @@ export function GenericPage<T>({ controlador, titulo, forcarRecarga }: any) {
         selecaoLinhas={state.selecaoLinhas}
         aoMudarSelecaoLinhas={state.setSelecaoLinhas}
       />
+
+      <AlertDialog open={!!state.erroAtivo} onOpenChange={() => state.setErroAtivo(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className=" flex items-center gap-2">
+              <AlertCircle /> {state.erroAtivo?.titulo}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {state.erroAtivo?.msg}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => state.setErroAtivo(null)}>Entendido</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

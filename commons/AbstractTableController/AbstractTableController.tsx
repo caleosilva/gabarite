@@ -89,4 +89,18 @@ export abstract class AbstractTableController<T> {
   obterAcoesPersonalizadas(itemSelecionado: T | null): BotaoAcao[] {
     return [];
   }
+
+
+  /**
+   * Centraliza o tratamento de erros de API.
+   * Pode ser sobrescrito se um controlador precisar de um tratamento específico.
+   */
+  protected async tratarErro(response: Response) {
+    const dadosErro = await response.json().catch(() => ({}));
+    const mensagem = dadosErro.message || "Ocorreu um erro inesperado no servidor.";
+    const status = response.status;
+
+    // Dispara o erro para ser capturado pelo Hook ou pela View
+    throw { mensagem, status, detalhes: dadosErro };
+  }
 }
