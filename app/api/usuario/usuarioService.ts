@@ -8,6 +8,7 @@ import { BaseActionVisualizar } from "@/commons/servidor/BaseActionVisualizar/Ba
 
 export class UsuarioService extends BaseService<UsuarioType> {
 
+  // Utilizado no goToPage
   private readonly projecaoListagem: Partial<Record<keyof UsuarioType, number>> = {
     nome: 1,
     email: 1,

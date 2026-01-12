@@ -72,7 +72,7 @@ export function GenericTablePage<T>({ controlador, titulo, forcarRecarga }: any)
           
           <Button 
             disabled={!state.existeSelecao} 
-            onClick={() => controlador.aoClicarExcluir(state.itensSelecionados)}
+            onClick={() => controlador.aoClicarExcluir(state.itemUnicoSelecionado)}
             variant="destructive"
           >
             Excluir

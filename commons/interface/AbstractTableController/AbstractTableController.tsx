@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ReactNode } from "react";
 import { Plus, Pencil, Eye, Trash2 } from "lucide-react"; 
-import { ConstrutorBotao, ConfiguracaoBotao } from "@/commons/interface/ConstrutorBotao/ConstrutorBotao";
+import { ConstrutorBotao, ConfiguracaoBotao } from "@/commons/interface/AbstractTableController/ConstrutorBotao/ConstrutorBotao";
 // --- Contratos de Dados ---
 
 // Formato esperado da resposta da API para paginação

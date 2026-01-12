@@ -63,7 +63,7 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
       ...(filtro?.value && { field: filtro.field, search: filtro.value }),
     });
 
-    const response = await fetch(`/api/usuarios?${params.toString()}`);
+    const response = await fetch(`/api/usuario?${params.toString()}`);
     if (!response.ok) throw new Error("Erro ao buscar usuários");
     
     return response.json();
