@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 // import { useToast } from "@/components/ui/use-toast";
 // import AlertDestructive from "@/components/elements/AlertDestructive/AlertDestructive";
 // import AlertAttention from "@/components/elements/AlertAttention/AlertDestructive";
-import DialogDefault from "@/commons/DialogDefault/DialogDefault";
+import DialogDefault from "@/commons/componentes/DialogDefault/DialogDefault";
 
 import { FormUsuario } from "./FormUsuario"; 
 import { createUsuarioFormSchema, UsuarioFormInput, UsuarioFormOutput } from "./formSchema";
