@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { useGenericTable } from "../hooks/useGenericTable/useGenericTable";
-import { DataTable } from "@/commons/DataTable/DataTable"; 
+import { useGenericTable } from "../useGenericTable/useGenericTable";
+import { DataTable } from "@/commons/componentes/DataTable/DataTable"; 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";

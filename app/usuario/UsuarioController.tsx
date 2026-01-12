@@ -4,7 +4,7 @@ import {
   ResultadoPaginado, 
   FiltroBusca, 
   ConstrutorAcoesPadrao 
-} from "@/commons/AbstractTableController/AbstractTableController";
+} from "@/commons/interface/AbstractTableController/AbstractTableController";
 import { UsuarioType } from "@/models/Usuario";
 import { Badge } from "@/components/ui/badge";
 

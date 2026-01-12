@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { GenericTablePage } from "@/commons/GenericTablePage/GenericTablePage";
+import { GenericTablePage } from "@/commons/interface/GenericTablePage/GenericTablePage";
 import { UsuarioController } from "./UsuarioController";
 import { UsuarioType } from "@/models/Usuario";
 import CadastrarEditarUsuario from "./dialogs/cadastrarEditar/CadastrarEditarUsuario";

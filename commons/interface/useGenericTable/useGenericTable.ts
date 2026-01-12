@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { RowSelectionState } from "@tanstack/react-table";
-import { AbstractTableController, FiltroBusca } from "@/commons/AbstractTableController/AbstractTableController";
+import { AbstractTableController, FiltroBusca } from "@/commons/interface/AbstractTableController/AbstractTableController";
 
 export function useGenericTable<T>(controlador: AbstractTableController<T>, forcarRecarga?: boolean | number) {
   const [dados, setDados] = useState<T[]>([]);

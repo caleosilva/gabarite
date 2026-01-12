@@ -1,12 +1,10 @@
 import connectToDatabase from "@/utils/db";
-import { AppError, HttpCode } from "./AppError";
+import { AppError, HttpCode } from "../AppError/AppError";
 import { NextResponse } from "next/server";
-import { Autenticador } from "../autenticador/Autenticador";
+import { Autenticador } from "../../autenticador/Autenticador";
 
 
 export abstract class BaseRoute {
-  protected abstract service: any;
-  protected abstract roles: Record<string, string[]>;
 
   protected async handle(req: Request, method: string, action: Function) {
     try {

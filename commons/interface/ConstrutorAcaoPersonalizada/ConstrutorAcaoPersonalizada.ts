@@ -1,6 +1,6 @@
 import {
   BotaoAcao
-} from "@/commons/AbstractTableController/AbstractTableController";
+} from "@/commons/interface/AbstractTableController/AbstractTableController";
 import { ReactNode } from "react";
 
 export class ConstrutorAcaoPersonalizada {

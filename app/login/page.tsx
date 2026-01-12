@@ -11,7 +11,7 @@ import { Loader2, AlertCircle, BookOpen, CheckCircle2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 // import { Alert, AlertDescription } from "@/components/ui/alert";
-import FormFieldBasic from "@/commons/FormField/FormField";
+import FormFieldBasic from "@/commons/componentes/FormField/FormField";
 import { loginSchema, LoginValues } from "./loginSchema";
 // import { CryptoUtils } from "@/utils/CryptoUtils"; // Usando sua classe utilitária
 import { Separator } from "@/components/ui/separator";

@@ -6,7 +6,7 @@ import { UseFormReturn } from "react-hook-form";
 import FormFieldBasic, { 
   FormFieldEmail, 
   FormFieldPassword 
-} from "@/commons/FormField/FormField";
+} from "@/commons/componentes/FormField/FormField";
 import { Switch } from "@/components/ui/switch";
 import {
   FormControl,
