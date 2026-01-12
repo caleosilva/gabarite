@@ -28,9 +28,6 @@ const usuarioSchema = new mongoose.Schema(
     }
 );
 
-// Índice para busca rápida por email
-usuarioSchema.index({ email: 1 });
-
 // Criando o modelo de usuário
 const Usuario = mongoose.models.Usuarios || mongoose.model("Usuarios", usuarioSchema, 'usuarios');
 
