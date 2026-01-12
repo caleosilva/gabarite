@@ -1,29 +1,63 @@
-// import { NextRequest } from "next/server";
-// import { UsuarioApiController } from "./controller";
-// import connectToDatabase from "@/utils/db";
+import { NextRequest } from "next/server";
+import { BaseRoute } from "@/commons/servidor/BaseRoute/BaseRoute";
+import { UsuarioService } from "./usuarioService";
 
-// const controller = new UsuarioApiController();
+class UsuarioRoute extends BaseRoute {
+  // Instanciamos o serviço que contém as regras de negócio
+  protected service = new UsuarioService();
 
-// async function ensureDb() {
-//   await connectToDatabase();
-// }
 
-// export async function GET(req: NextRequest) {
-//   await ensureDb();
-//   return controller.execute(req, "GET");
-// }
+  public async GET(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
 
-// export async function POST(req: NextRequest) {
-//   await ensureDb();
-//   return controller.execute(req, "POST");
-// }
+    return this.handle(req, "GET", async () => {
+      // Se houver um ID, chama visualizar, caso contrário, listagem paginada
+      if (id) {
+        return this.service.visualizar(id);
+      }
 
-// export async function PUT(req: NextRequest) {
-//   await ensureDb();
-//   return controller.execute(req, "PUT");
-// }
+      return this.service.goToPage({
+        page: parseInt(searchParams.get("page") || "0"),
+        pageSize: parseInt(searchParams.get("pageSize") || "12"),
+        filterField: searchParams.get("filterField") || undefined,
+        filterValue: searchParams.get("filterValue") || undefined,
+      });
+    });
+  }
 
-// export async function DELETE(req: NextRequest) {
-//   await ensureDb();
-//   return controller.execute(req, "DELETE");
-// }
+  public async POST(req: NextRequest) {
+    return this.handle(req, "POST", async () => {
+      const body = await req.json();
+      return this.service.cadastrar(body);
+    });
+  }
+
+  public async PUT(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    return this.handle(req, "PUT", async () => {
+      if (!id) throw new Error("ID não fornecido para atualização.");
+      const body = await req.json();
+      return this.service.editar(id, body);
+    });
+  }
+
+  public async DELETE(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    return this.handle(req, "DELETE", async () => {
+      if (!id) throw new Error("ID não fornecido para exclusão.");
+      return this.service.excluir(id);
+    });
+  }
+}
+
+const route = new UsuarioRoute();
+
+export const GET = (req: NextRequest) => route.GET(req);
+export const POST = (req: NextRequest) => route.POST(req);
+export const PUT = (req: NextRequest) => route.PUT(req);
+export const DELETE = (req: NextRequest) => route.DELETE(req);

@@ -10,6 +10,7 @@ export abstract class BaseRoute {
     try {
       await connectToDatabase();
       
+      // Passar o req e o method para o autenticador?
       const autorizado = await Autenticador.validar();
       if (!autorizado) throw new AppError(HttpCode.FORBIDDEN, "Não autorizado");
 
