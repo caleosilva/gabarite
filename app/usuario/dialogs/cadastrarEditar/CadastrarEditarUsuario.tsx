@@ -18,9 +18,9 @@ interface CadastrarEditarUsuarioProps {
   update: boolean;
   setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
   usuario?: UsuarioType;
-
   open: boolean;
   setOpen: (open: boolean) => void;
+  setErroAtivo?: (erro: { titulo: string; msg: string } | null) => void;
 }
 
 export default function CadastrarEditarUsuario({
@@ -28,15 +28,14 @@ export default function CadastrarEditarUsuario({
   setUpdate,
   usuario,
   open, 
-  setOpen, 
+  setOpen,
+  setErroAtivo
 }: CadastrarEditarUsuarioProps) {
   const { data: session } = useSession();
 //   const { toast } = useToast();
 
   // Estados de Controle
   const [isFormSubmitting, setFormSubmitting] = useState(false);
-  const [erroServer, setErroServer] = useState(false);
-  const [erroUsuarioExiste, setErroUsuarioExiste] = useState(false);
 
   //  Determina o modo de operação
   const isEditMode = !!usuario;
@@ -84,13 +83,61 @@ export default function CadastrarEditarUsuario({
 
   const limparCampos = () => {
     form.reset();
-    setErroServer(false);
-    setErroUsuarioExiste(false);
   };
 
-  // Submissão
   const onSubmit = async (values: UsuarioFormOutput) => {
-    console.log("values: ", values)
+    try {
+      setFormSubmitting(true);
+
+      const isPublicRegister = !session;
+      let url = isPublicRegister ? "/api/registrarUsuarioLogin" : "/api/usuario";
+
+      if (isEditMode && usuario?._id)
+        url += `?id=${usuario._id}`;
+
+      const response = await fetch(url, {
+        method: httpMethod,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Se existir a prop (veio da UsuariosPage), usa o modal global
+        if (setErroAtivo) {
+          setErroAtivo({
+            titulo: data.titulo || "Atenção",
+            msg: data.msg || "Erro ao salvar."
+          });
+        } else {
+          // Se NÃO existir (veio da LoginPage), usa um fallback (toast ou alert)
+          alert(`${data.titulo || 'Erro'}: ${data.msg}`);
+          // Ou se tiver o toast: toast({ title: data.titulo, description: data.msg, variant: "destructive" });
+        }
+        return;
+      }
+
+      setOpen(false);
+      if (setUpdate) setUpdate(prev => !prev);
+      form.reset();
+    } catch (error: any) {
+      setFormSubmitting(false);
+
+      if (setErroAtivo) {
+          setErroAtivo({
+            titulo: "Erro de Conexão",
+            msg: "Não foi possível comunicar com o servidor. Verifique sua internet."
+          });
+        } else {
+          alert(`Erro: ${error}`);
+        }
+
+
+      
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   function renderBody() {
@@ -103,20 +150,6 @@ export default function CadastrarEditarUsuario({
           isEditMode={isEditMode}
           usuario={usuario}
         />
-
-        {/* {erroServer && (
-          <AlertDestructive
-            titulo="Erro no Servidor"
-            descricao="Não foi possível processar a solicitação. Tente novamente mais tarde."
-          />
-        )}
-
-        {erroUsuarioExiste && (
-          <AlertAttention
-            titulo="E-mail Duplicado"
-            descricao="Já existe um usuário cadastrado com este e-mail."
-          />
-        )} */}
       </div>
     );
   }

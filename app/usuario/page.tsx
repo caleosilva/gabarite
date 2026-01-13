@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { GenericTablePage } from "@/commons/interface/GenericTablePage/GenericTablePage";
+import { useGenericTable } from "@/commons/interface/useGenericTable/useGenericTable";
 import { UsuarioController } from "./UsuarioController";
 import { UsuarioType } from "@/models/Usuario";
 import CadastrarEditarUsuario from "./dialogs/cadastrarEditar/CadastrarEditarUsuario";
@@ -11,45 +12,39 @@ export default function UsuariosPage() {
   const [openCadastro, setOpenCadastro] = useState(false);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<UsuarioType | undefined>();
 
-  // Funções de ação disparadas pelo controlador
   const handlers = {
     onAdd: () => {
       setUsuarioSelecionado(undefined);
       setOpenCadastro(true);
     },
     onEdit: (item: UsuarioType) => {
-      console.log("Ação Editar acionada para:", item.nome);
       setUsuarioSelecionado(item);
       setOpenCadastro(true); 
     },
-    onView: (item: UsuarioType) => {
-      console.log("Ação Visualizar acionada para:", item.nome);
-      // Aqui você abriria um modal de 'view' no futuro
-    },
-    onDelete: (items: UsuarioType | UsuarioType[]) => {
-      console.log("Ação Excluir acionada para:", items);
-      // Aqui você abriria um AlertDialog de confirmação no futuro
-    }
+    onView: (item: UsuarioType) => console.log("Visualizar:", item),
+    onDelete: (item: UsuarioType) => console.log("Excluir:", item)
   };
 
-  // Instancia o controlador (memoizado para evitar recriações desnecessárias)
-  const controlador = React.useMemo(() => new UsuarioController(handlers), [update]);
+  const controlador = useMemo(() => new UsuarioController(handlers), []);
+  const tableState = useGenericTable(controlador, update);
 
   return (
     <div className="w-full">
+      {/* Passamos o state explicitamente para a GenericTablePage */}
       <GenericTablePage 
         titulo="Gestão de Usuários" 
         controlador={controlador} 
-        forcarRecarga={update} 
+        state={tableState} 
       />
 
-      {/* Modal de Cadastro/Edição */}
+      {/* Agora o Modal tem acesso ao setErroAtivo do estado global da página */}
       <CadastrarEditarUsuario 
         open={openCadastro}
         setOpen={setOpenCadastro}
         usuario={usuarioSelecionado}
         update={!!update}
         setUpdate={() => setUpdate(prev => prev + 1)}
+        setErroAtivo={tableState.setErroAtivo} 
       />
     </div>
   );
