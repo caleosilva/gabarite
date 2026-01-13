@@ -5,7 +5,7 @@ import { GenericTablePage } from "@/commons/interface/GenericTablePage/GenericTa
 import { useGenericTable } from "@/commons/interface/useGenericTable/useGenericTable";
 import { UsuarioController } from "./UsuarioController";
 import { UsuarioType } from "@/models/Usuario";
-import CadastrarEditarUsuario from "./dialogs/cadastrarEditar/CadastrarEditarUsuario";
+import CadastrarEditarUsuario from "./dialogs/CadastrarEditarUsuario";
 
 export default function UsuariosPage() {
   const [update, setUpdate] = useState(0);

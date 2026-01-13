@@ -17,7 +17,7 @@ import { loginSchema, LoginValues } from "./loginSchema";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
-import CadastrarEditarUsuario from "@/app/usuario/dialogs/cadastrarEditar/CadastrarEditarUsuario";
+import CadastrarEditarUsuario from "@/app/usuario/dialogs/CadastrarEditarUsuario";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
