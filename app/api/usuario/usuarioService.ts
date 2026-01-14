@@ -5,6 +5,7 @@ import { BaseActionCadastrar } from "@/commons/servidor/BaseActionCadastrar/Base
 import { BaseActionEditar } from "@/commons/servidor/BaseActionEditar/BaseActionEditar";
 import { BaseActionExcluir } from "@/commons/servidor/BaseActionExcluir/BaseActionExcluir";
 import { BaseActionVisualizar } from "@/commons/servidor/BaseActionVisualizar/BaseActionVisualizar";
+import {CadastrarUsuarioAction} from "@/app/api/usuario/actions/ActionCadastrarUsuario"
 
 export class UsuarioService extends BaseService<UsuarioType> {
 
@@ -20,7 +21,7 @@ export class UsuarioService extends BaseService<UsuarioType> {
   }
 
   async cadastrar(data: UsuarioType) {
-    return new BaseActionCadastrar(Usuario).run(data);
+    return new CadastrarUsuarioAction(Usuario).run(data);
   }
 
   async editar(id: string, data: Partial<UsuarioType>) {
