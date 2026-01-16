@@ -1,151 +1,95 @@
 "use client";
 
-import * as React from "react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn, useSession } from "next-auth/react";
-import { Loader2, AlertCircle, BookOpen, CheckCircle2 } from "lucide-react";
+import { BookOpen, Loader2, AlertCircle } from "lucide-react";
 
-import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-// import { Alert, AlertDescription } from "@/components/ui/alert";
-import FormFieldBasic from "@/commons/componentes/FormField/FormField";
-import { loginSchema, LoginValues } from "./loginSchema";
-// import { CryptoUtils } from "@/utils/CryptoUtils"; // Usando sua classe utilitária
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card";
 
 import CadastrarEditarUsuario from "@/app/usuario/dialogs/CadastrarEditarUsuario";
-
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-
+import { FormLogin } from "./commons/FormLogin";
+import { useLoginForm } from "./commons/useLoginForm";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { status } = useSession();
-  const [error, setError] = React.useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-
+  const { form, isSubmitting, error, onSubmit } = useLoginForm();
   const [openCadastro, setOpenCadastro] = useState(false);
   const [update, setUpdate] = useState(false);
 
-  // Redireciona se já estiver autenticado
-  React.useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/");
-    }
-  }, [status, router]);
-
-  const form = useForm<LoginValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      senha: "",
-    },
-  });
-
-  const onSubmit = async (values: LoginValues) => {
-    // setIsSubmitting(true);
-    // setError(null);
-
-    // try {
-    //   // Criptografia antes do envio (conforme seu padrão)
-    //   const senhaCriptografada = CryptoUtils.encryptWithAES(values.senha);
-
-    //   const result = await signIn("credentials", {
-    //     email: values.email,
-    //     senha: senhaCriptografada,
-    //     redirect: false,
-    //   });
-
-    //   if (result?.error) {
-    //     setError("E-mail ou senha incorretos.");
-    //   } else {
-    //     router.push("/");
-    //   }
-    // } catch (err) {
-    //   setError("Ocorreu um erro inesperado ao realizar o login.");
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
-  };
+  const idForm = "formLoginPrincipal";
 
   return (
-  // Alteração: Removi 'container' e adicionei 'w-full'
-  <div className="relative min-h-screen w-full flex items-center justify-center lg:px-0 bg-gradient-to-br from-background to-muted/20">
-    
-    {/* Marca d'água decorativa */}
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-5">
-      <BookOpen className="absolute top-10 left-10 h-32 w-32 rotate-12" />
-      <BookOpen className="absolute bottom-20 right-20 h-40 w-40 -rotate-12" />
-    </div>
-
-    {/* Alteração: Removi 'mx-auto' (o flex-center do pai já cuida disso) */}
-    <div className="flex w-full flex-col justify-center space-y-6 sm:w-[420px] relative z-10 px-4">
+    <div className="relative min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-background to-muted/20">
       
-      <Card className="border-2 shadow-lg"> {/* Adicionado um shadow opcional para destacar */}
-        <CardHeader className="space-y-1 text-center pb-4">
-          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <BookOpen className="h-6 w-6 text-primary" />
-          </div>
-          
-          <CardTitle className="text-2xl font-bold tracking-tight">
-            Bem-vindo ao Gabarite
-          </CardTitle>
-          
-          <CardDescription className="text-sm">
-            Acesse sua conta para continuar estudando
-          </CardDescription>
-        </CardHeader>
+      {/* Marca d'água decorativa */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-5">
+        <BookOpen className="absolute top-10 left-10 h-32 w-32 rotate-12" />
+        <BookOpen className="absolute bottom-20 right-20 h-40 w-40 -rotate-12" />
+      </div>
 
-        <CardContent className="space-y-4">
+      <div className="flex w-full flex-col justify-center space-y-6 sm:w-[420px] relative z-10 px-4">
+        <Card className="border-2 shadow-lg">
+          <CardHeader className="space-y-1 text-center pb-4">
+            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+              <BookOpen className="h-6 w-6 text-primary" />
+            </div>
+            
+            <CardTitle className="text-2xl font-bold tracking-tight">
+              Bem-vindo ao Gabarite
+            </CardTitle>
+            
+            <CardDescription className="text-sm">
+              Acesse sua conta para continuar estudando
+            </CardDescription>
+          </CardHeader>
 
-            {/* Formulário */}
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                
-                <FormFieldBasic
-                  form={form}
-                  name="email"
-                  label="E-mail"
-                  type="email"
-                  placeholder="seu@email.com"
-                  disabled={isSubmitting}
-                  obrigatorio
-                />
+          <CardContent className="space-y-4">
+            
+            {/* Exibição de erros de autenticação */}
+            {error && (
+              <Alert variant="destructive" className="py-2">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-xs">
+                  {error}
+                </AlertDescription>
+              </Alert>
+            )}
 
-                <FormFieldBasic
-                  form={form}
-                  name="senha"
-                  label="Senha"
-                  type="password"
-                  placeholder="••••••••"
-                  disabled={isSubmitting}
-                  obrigatorio
-                />
+            {/* Componente de Formulário Refatorado */}
+            <FormLogin 
+              form={form} 
+              onSubmit={onSubmit} 
+              idForm={idForm} 
+              isSubmitting={isSubmitting} 
+            />
 
-                <Button 
-                  type="submit" 
-                  className="w-full" 
-                  disabled={isSubmitting}
-                  size="lg"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Autenticando...
-                    </>
-                  ) : (
-                    "Entrar"
-                  )}
-                </Button>
-              </form>
-            </Form>
+            {/* Botão de Submit vinculado ao ID do formulário */}
+            <Button 
+              type="submit" 
+              form={idForm} // Link com o formulário interno
+              className="w-full" 
+              disabled={isSubmitting}
+              size="lg"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Autenticando...
+                </>
+              ) : (
+                "Entrar"
+              )}
+            </Button>
 
-            {/* Divider com "ou" */}
-            <div className="relative">
+            {/* Divider decorativo */}
+            <div className="relative py-2">
               <div className="absolute inset-0 flex items-center">
                 <Separator />
               </div>
@@ -156,7 +100,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Botão de Registro */}
+            {/* Opção de Registro */}
             <Button 
               variant="outline" 
               className="w-full" 
@@ -166,20 +110,21 @@ export default function LoginPage() {
               Criar nova conta
             </Button>
 
+            {/* Modal de Cadastro Reutilizado */}
             <CadastrarEditarUsuario 
               open={openCadastro} 
-              setOpen={setOpenCadastro} 
+              setOpen={setOpenCadastro}
               update={update}
               setUpdate={setUpdate}
             />
           </CardContent>
-      </Card>
+        </Card>
 
-      {/* Footer */}
-      <p className="text-center text-xs text-muted-foreground">
-        Gabarite &copy; {new Date().getFullYear()} - Todos os direitos reservados
-      </p>
+        {/* Footer da Página */}
+        <p className="text-center text-xs text-muted-foreground">
+          Gabarite &copy; {new Date().getFullYear()} - Todos os direitos reservados
+        </p>
+      </div>
     </div>
-  </div>
-);
+  );
 }

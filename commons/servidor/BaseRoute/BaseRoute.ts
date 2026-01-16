@@ -1,7 +1,7 @@
 import connectToDatabase from "@/utils/db";
 import { AppError, HttpCode } from "../AppError/AppError";
 import { NextResponse } from "next/server";
-import { Autenticador } from "../../autenticador/Autenticador";
+import { Autenticador } from "../../autenticador/Autenticador/Autenticador";
 
 
 export abstract class BaseRoute {

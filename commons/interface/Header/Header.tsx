@@ -1,14 +1,15 @@
 "use client"
 
-import * as React from "react"
-import { useSession } from "next-auth/react"
 import { Navbar } from "./NavBar/NavBar" 
 import { Skeleton } from "@/components/ui/skeleton"
+import { useAuthComponente } from "@/commons/autenticador/useAuthComponente/useAuthComponente"
 
 export function Header() {
-  const { data: session, status } = useSession()
+  const {isAuthenticated, isLoading, user} = useAuthComponente();
 
-  const primeiroNome = session?.user?.name?.split(" ")[0] || "Usuário"
+  const primeiroNome = user?.name?.split(" ")[0] || "Usuário"
+
+  if (!isAuthenticated) return;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
@@ -16,7 +17,7 @@ export function Header() {
         
         {/* Lado Esquerdo: Saudação */}
         <div className="flex items-center gap-2">
-          {status === "loading" ? (
+          {isLoading ? (
             <Skeleton className="h-6 w-32" />
           ) : (
             <h2 className="text-lg font-semibold tracking-tight">
