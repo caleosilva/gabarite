@@ -9,10 +9,10 @@ export default withAuth({
 export const config = {
   // Todas as rotas que PRECISAM de login
   matcher: [
-    "/",
     "/dashboard/:path*",
     "/usuario/:path*",
     "/auxiliares/:path*",
     "/estudo/:path*",
+    "/perfil/:path"
   ],
 };

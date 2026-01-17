@@ -2,12 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import {
-  LayoutDashboard,
-  BookOpen,
-  Settings2,
-  Users,
-} from "lucide-react";
+import { LayoutDashboard, BookOpen, Settings2, Users } from "lucide-react";
 
 import {
   NavigationMenu,
@@ -81,10 +76,10 @@ export function Navbar() {
 
           {/* 2. Auxiliares (Dropdown) */}
           <NavigationMenuItem>
-           <NavigationMenuTrigger className="h-9 px-4 py-2 gap-2">
-  <Settings2 className="h-4 w-4" />
-  <span>Auxiliares</span>
-</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="h-9 px-4 py-2 gap-2">
+              <Settings2 className="h-4 w-4" />
+              <span>Auxiliares</span>
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] lg:right-0">
                 {auxiliares.map((item) => (
@@ -108,7 +103,7 @@ export function Navbar() {
             >
               <Link href="/usuario" className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                <span>Usuário</span>
+                <span>Usuários</span>
               </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>

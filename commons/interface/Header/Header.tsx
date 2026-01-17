@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar } from "./NavBar/NavBar" 
+import UserHeader from "./UserHeader/UserHeader"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useAuthComponente } from "@/commons/autenticador/useAuthComponente/useAuthComponente"
 
@@ -30,6 +31,12 @@ export function Header() {
         <div className="flex items-center">
           <Navbar />
         </div>
+
+         <div className="flex items-center">
+          <UserHeader />
+        </div>
+
+        
 
       </div>
     </header>
