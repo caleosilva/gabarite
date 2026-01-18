@@ -51,6 +51,10 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
     ];
   }
 
+  getRowId(item: UsuarioType): string {
+    return item._id.toString();
+  }
+
   // Integração com backend/API
   async fetchData(
     indicePagina: number,

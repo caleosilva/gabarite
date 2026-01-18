@@ -19,7 +19,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Loader2, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import {
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 
 // --- CONFIGURAÇÃO ---
 const ITENS_POR_PAGINA_PADRAO = 12;
@@ -29,13 +35,13 @@ interface PropsTabelaDeDados<TDados, TValor> {
   // Essenciais
   colunas: ColumnDef<TDados, TValor>[];
   dados: TDados[];
-  
+
   // Paginação
   totalDePaginas: number;
   paginacao: PaginationState;
   aoMudarPaginacao: (paginacao: PaginationState) => void;
   itensPorPagina?: number;
-  
+
   // Seleção (opcional)
   selecaoLinhas?: RowSelectionState;
   aoMudarSelecaoLinhas?: (selecao: RowSelectionState) => void;
@@ -46,7 +52,7 @@ interface PropsTabelaDeDados<TDados, TValor> {
   // Estados
   estaCarregando: boolean;
   erro?: string | null;
-  
+
   // Customização
   mensagens?: {
     carregando?: string;
@@ -54,6 +60,8 @@ interface PropsTabelaDeDados<TDados, TValor> {
   };
   classNameContainer?: string;
   classNameTabela?: string;
+
+  getRowId: (item: TDados) => string;
 }
 
 // --- COMPONENTE PRINCIPAL ---
@@ -74,13 +82,14 @@ export function DataTable<TDados, TValor>({
   mensagens,
   classNameContainer,
   classNameTabela,
+  getRowId
 }: PropsTabelaDeDados<TDados, TValor>) {
-  
   // Inicializa a instância do TanStack Table
   const tabela = useReactTable({
     data: dados,
     columns: colunas,
     pageCount: totalDePaginas,
+    getRowId,
     state: {
       pagination: { ...paginacao, pageSize: itensPorPagina },
       rowSelection: selecaoLinhas,
@@ -89,27 +98,32 @@ export function DataTable<TDados, TValor>({
     enableRowSelection: permitirSelecao,
     enableMultiRowSelection: permitirSelecaoMultipla,
     getCoreRowModel: getCoreRowModel(),
-    
+
     // Wrappers para converter o estado da lib para o estado do React
     onPaginationChange: (atualizador) => {
-      const proximoEstado = typeof atualizador === 'function' 
-        ? atualizador({ ...paginacao, pageSize: itensPorPagina }) 
-        : atualizador;
+      const proximoEstado =
+        typeof atualizador === "function"
+          ? atualizador({ ...paginacao, pageSize: itensPorPagina })
+          : atualizador;
       aoMudarPaginacao(proximoEstado);
     },
     onRowSelectionChange: (atualizador) => {
       if (!aoMudarSelecaoLinhas) return;
-      
-      const proximaSelecao = typeof atualizador === 'function' 
-        ? atualizador(selecaoLinhas) 
-        : atualizador;
+
+      const proximaSelecao =
+        typeof atualizador === "function"
+          ? atualizador(selecaoLinhas)
+          : atualizador;
       aoMudarSelecaoLinhas(proximaSelecao);
     },
+    
   });
 
   return (
-    <div className={`space-y-4 ${classNameContainer || ''}`}>
-      <div className={`rounded-md border overflow-x-auto ${classNameTabela || ''}`}>
+    <div className={`space-y-4 ${classNameContainer || ""}`}>
+      <div
+        className={`rounded-md border overflow-x-auto ${classNameTabela || ""}`}
+      >
         <Table>
           <TableHeader>
             {tabela.getHeaderGroups().map((grupoCabecalho) => (
@@ -118,18 +132,21 @@ export function DataTable<TDados, TValor>({
                   <TableHead key={cabecalho.id}>
                     {cabecalho.isPlaceholder
                       ? null
-                      : flexRender(cabecalho.column.columnDef.header, cabecalho.getContext())}
+                      : flexRender(
+                          cabecalho.column.columnDef.header,
+                          cabecalho.getContext()
+                        )}
                   </TableHead>
                 ))}
               </TableRow>
             ))}
           </TableHeader>
-          
+
           <TableBody>
             {renderizarConteudoTabela(
-              tabela, 
-              colunas.length, 
-              estaCarregando, 
+              tabela,
+              colunas.length,
+              estaCarregando,
               erro,
               mensagens,
               permitirSelecao,
@@ -151,8 +168,8 @@ export function DataTable<TDados, TValor>({
  * Decide o conteúdo do corpo da tabela: Erro, Carregando, Vazio ou Lista.
  */
 function renderizarConteudoTabela<TDados>(
-  tabela: InstanciaTabelaReact<TDados>, 
-  quantidadeColunas: number, 
+  tabela: InstanciaTabelaReact<TDados>,
+  quantidadeColunas: number,
   estaCarregando: boolean,
   erro?: string | null,
   mensagens?: { carregando?: string; semDados?: string },
@@ -163,7 +180,10 @@ function renderizarConteudoTabela<TDados>(
   if (erro) {
     return (
       <TableRow>
-        <TableCell colSpan={quantidadeColunas} className="h-24 text-center text-red-500">
+        <TableCell
+          colSpan={quantidadeColunas}
+          className="h-24 text-center text-red-500"
+        >
           <div className="flex justify-center items-center gap-2">
             <span>⚠️ {erro}</span>
           </div>
@@ -190,7 +210,10 @@ function renderizarConteudoTabela<TDados>(
   if (tabela.getRowModel().rows.length === 0) {
     return (
       <TableRow>
-        <TableCell colSpan={quantidadeColunas} className="h-24 text-center text-muted-foreground">
+        <TableCell
+          colSpan={quantidadeColunas}
+          className="h-24 text-center text-muted-foreground"
+        >
           {mensagens?.semDados || "Nenhum registro encontrado."}
         </TableCell>
       </TableRow>
@@ -224,11 +247,14 @@ function renderizarConteudoTabela<TDados>(
 /**
  * Componente visual para os botões de navegação.
  */
-function ControleDePaginacao<TDados>({ tabela }: { tabela: InstanciaTabelaReact<TDados> }) {
+function ControleDePaginacao<TDados>({
+  tabela,
+}: {
+  tabela: InstanciaTabelaReact<TDados>;
+}) {
   return (
     <div className="flex items-center justify-end gap-2">
       <div className="flex items-center space-x-2">
-        
         {/* Ir para Primeira Página */}
         <Button
           variant="outline"
@@ -239,7 +265,7 @@ function ControleDePaginacao<TDados>({ tabela }: { tabela: InstanciaTabelaReact<
         >
           <ChevronsLeft className="h-4 w-4" />
         </Button>
-        
+
         {/* Página Anterior */}
         <Button
           variant="outline"
@@ -250,11 +276,12 @@ function ControleDePaginacao<TDados>({ tabela }: { tabela: InstanciaTabelaReact<
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        
+
         <span className="text-sm font-medium">
-          Pag {tabela.getState().pagination.pageIndex + 1} de {tabela.getPageCount() || 1}
+          Pag {tabela.getState().pagination.pageIndex + 1} de{" "}
+          {tabela.getPageCount() || 1}
         </span>
-        
+
         {/* Próxima Página */}
         <Button
           variant="outline"
@@ -265,7 +292,7 @@ function ControleDePaginacao<TDados>({ tabela }: { tabela: InstanciaTabelaReact<
         >
           <ChevronRight className="h-4 w-4" />
         </Button>
-        
+
         {/* Ir para Última Página */}
         <Button
           variant="outline"

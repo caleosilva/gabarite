@@ -39,6 +39,8 @@ export interface BotaoAcao {
 export abstract class AbstractTableController<T> {
   
   // 1. Definições Obrigatórias
+  // Retorna o ID único da entidade (obrigatório para seleção e ações)
+  abstract getRowId(item: T): string;
 
   // Retorna as colunas do TanStack Table
   abstract obterColunas(): ColumnDef<T>[];
@@ -77,7 +79,6 @@ export abstract class AbstractTableController<T> {
 
 
   // 3. Ações do Usuário (Obrigatórias)
-
   abstract aoClicarAdicionar(): void;
   abstract aoClicarEditar(item: T): void;
   abstract aoClicarVisualizar(item: T): void;
