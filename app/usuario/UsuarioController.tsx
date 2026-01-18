@@ -51,7 +51,7 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
     ];
   }
 
-  // Integração real com seu backend/API
+  // Integração com backend/API
   async fetchData(
     indicePagina: number,
     tamanhoPagina: number,
@@ -60,7 +60,7 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
     const params = new URLSearchParams({
       page: (indicePagina + 1).toString(),
       limit: tamanhoPagina.toString(),
-      ...(filtro?.value && { field: filtro.field, search: filtro.value }),
+      ...(filtro?.value && { filterField: filtro.field, filterValue: filtro.value }),
     });
 
     const response = await fetch(`/api/usuario?${params.toString()}`);

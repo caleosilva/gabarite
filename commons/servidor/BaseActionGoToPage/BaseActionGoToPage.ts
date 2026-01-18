@@ -34,12 +34,12 @@ export class BaseActionGoToPage<T> extends BaseAction<GoToPageInput, { data: T[]
       query[filterField] = { $regex: filterValue, $options: "i" };
     }
 
-    const skip = page * pageSize;
+    const skip = (page - 1) * pageSize;
 
     // 3. Execução
     const [data, total] = await Promise.all([
       this.model.find(query)
-        .select(this.selectFields as any) // Cast para 'any' apenas aqui para o Mongoose aceitar a união de tipos
+        .select(this.selectFields as any)
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(pageSize)
