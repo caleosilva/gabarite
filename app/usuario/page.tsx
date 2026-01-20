@@ -6,10 +6,12 @@ import { useGenericTable } from "@/commons/interface/useGenericTable/useGenericT
 import { UsuarioController } from "./UsuarioController";
 import { UsuarioType } from "@/models/Usuario";
 import CadastrarEditarUsuario from "./dialogs/CadastrarEditarUsuario";
+import ExcluirUsuario from "./dialogs/ExcluirUsuario";
 
 export default function UsuariosPage() {
   const [update, setUpdate] = useState(0);
   const [openCadastro, setOpenCadastro] = useState(false);
+  const [openExcluir, setOpenExcluir] = useState(false);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<
     UsuarioType | undefined
   >();
@@ -24,7 +26,10 @@ export default function UsuariosPage() {
       setOpenCadastro(true);
     },
     onView: (item: UsuarioType) => console.log("Visualizar:", item),
-    onDelete: (item: UsuarioType) => console.log("Excluir:", item),
+    onDelete: (item: UsuarioType) => {
+      setUsuarioSelecionado(item);
+      setOpenExcluir(true);
+    },
   };
 
   const controlador = useMemo(() => new UsuarioController(handlers), []);
@@ -46,6 +51,14 @@ export default function UsuariosPage() {
         usuario={usuarioSelecionado}
         update={!!update}
         setUpdate={() => setUpdate((prev) => prev + 1)}
+        setErroAtivo={tableState.setErroAtivo}
+      />
+
+      <ExcluirUsuario
+        open={openExcluir}
+        setOpen={setOpenExcluir}
+        usuario={usuarioSelecionado}
+        onSuccess={() => setUpdate((prev) => prev + 1)}
         setErroAtivo={tableState.setErroAtivo}
       />
     </div>
