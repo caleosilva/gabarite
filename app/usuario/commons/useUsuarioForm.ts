@@ -1,5 +1,4 @@
-// hooks/useUsuarioForm.ts
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
@@ -10,11 +9,13 @@ interface UseUsuarioFormProps {
   usuario?: UsuarioType;
   onSuccess: () => void;
   setErroAtivo?: (erro: { titulo: string; msg: string } | null) => void;
+  open?: boolean;
 }
 
-export function useUsuarioForm({ usuario, onSuccess, setErroAtivo }: UseUsuarioFormProps) {
+export function useUsuarioForm({ usuario, onSuccess, setErroAtivo, open }: UseUsuarioFormProps) {
   const { data: session } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   
   const isEditMode = !!usuario;
   const idForm = isEditMode ? "formEditarUsuario" : "formCadastrarUsuario";
@@ -30,6 +31,45 @@ export function useUsuarioForm({ usuario, onSuccess, setErroAtivo }: UseUsuarioF
       _id: usuario?._id?.toString() ?? "",
     },
   });
+  
+  useEffect(() => {
+    const buscarDadosUsuario = async () => {
+      if (open && isEditMode && usuario?._id) {
+        try {
+          setIsLoading(true);
+          const response = await fetch(`/api/usuario?id=${usuario._id}`);
+          const data = await response.json();
+
+          if (response.ok && data) {
+            form.reset({
+              nome: data.nome,
+              email: data.email,
+              isAdmin: data.isAdmin,
+              fotoUrl: data.fotoUrl || "",
+              _id: data._id,
+              senha: "",
+            });
+          }
+        } catch (error) {
+          console.error("Erro ao carregar dados do usuário:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      } else if (open && !isEditMode) {
+        // Limpa o formulário ao abrir para cadastro
+        form.reset({
+          nome: "",
+          email: "",
+          isAdmin: false,
+          fotoUrl: "",
+          senha: "",
+          _id: "",
+        });
+      }
+    };
+
+    buscarDadosUsuario();
+  }, [open, isEditMode, usuario?._id, form]);
 
   const onSubmit = async (values: UsuarioFormOutput) => {
     try {
@@ -63,5 +103,5 @@ export function useUsuarioForm({ usuario, onSuccess, setErroAtivo }: UseUsuarioF
     }
   };
 
-  return { form, isSubmitting, isEditMode, idForm, onSubmit };
+  return { form, isSubmitting, isLoading, isEditMode, idForm, onSubmit };
 }

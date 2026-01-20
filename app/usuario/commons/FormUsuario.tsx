@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
 import { Form } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
-import FormFieldBasic, { 
-  FormFieldEmail, 
-  FormFieldPassword 
+import FormFieldBasic, {
+  FormFieldEmail,
+  FormFieldPassword,
 } from "@/commons/componentes/FormField/FormField";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -52,28 +52,35 @@ export function FormUsuario({
           name="email"
           label="E-mail"
           disabled={isEditMode} // Geralmente não permitimos trocar e-mail em edição por segurança
-          descricao={isEditMode ? "O e-mail não pode ser alterado." : "E-mail principal para acesso."}
+          descricao={
+            isEditMode
+              ? "O e-mail não pode ser alterado."
+              : "E-mail principal para acesso."
+          }
           obrigatorio
         />
 
-        {/* Senha */}
-        <FormFieldPassword
-          form={form}
-          name="senha"
-          label={isEditMode ? "Nova Senha" : "Senha"}
-          placeholder={isEditMode ? "Deixe em branco para manter a atual" : "••••••••"}
-          descricao={isEditMode ? "Preencha apenas se desejar alterar a senha." : "Mínimo de 6 caracteres."}
-          obrigatorio={!isEditMode} // Obrigatória apenas na criação
-        />
+        {!isEditMode && (
+          <>
+            <FormFieldPassword
+              form={form}
+              name="senha"
+              label={"Senha"}
+              placeholder={"••••••••"}
+              descricao={"Mínimo de 6 caracteres." }
+              obrigatorio={!isEditMode} // Obrigatória apenas na criação
+            />
+          </>
+        )}
 
-        {/* URL da Foto */}
+        {/* URL da Foto
         <FormFieldBasic
           form={form}
           name="fotoUrl"
           label="URL da Foto de Perfil"
           type="url"
           placeholder="https://exemplo.com/foto.jpg"
-        />
+        /> */}
 
         {/* Switch para Admin */}
         <FormField

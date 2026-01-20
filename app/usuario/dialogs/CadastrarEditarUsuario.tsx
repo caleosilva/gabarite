@@ -25,6 +25,7 @@ export default function CadastrarEditarUsuario({
   const { form, isSubmitting, isEditMode, idForm, onSubmit } = useUsuarioForm({
     usuario,
     setErroAtivo,
+    open,
     onSuccess: () => {
       setOpen(false);
       setUpdate(prev => !prev);
