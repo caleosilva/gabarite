@@ -1,5 +1,3 @@
-import { AcaoType } from "./enum/acao";
-import { RecursoType } from "./enum/recurso";
 import { Cargo } from "./enum/cargo";
 import { administrador } from "./permissoes/administrador";
 import { estudante } from "./permissoes/estudante";
@@ -14,9 +12,14 @@ export const CONFIGURACAO_CARGOS: Record<string, Permissao[]> = {
 
 export function possuiPermissao(
   cargo: string,
-  recurso: string,
+  recurso: string | undefined,
   acao: string
 ): boolean {
+
+
+  
+  if (!recurso) return false; // TRHOW ERROR?
+
   const permissoes = CONFIGURACAO_CARGOS[cargo];
   if (!permissoes) return false;
 

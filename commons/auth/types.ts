@@ -1,4 +1,4 @@
 export interface Permissao {
-  recurso: string; // Ou RecursoType['value'] se preferir tipagem estrita
+  recurso: string;
   acoes: string[];
 }

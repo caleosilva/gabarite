@@ -1,4 +1,4 @@
-import { Acao, obterAcoesCRUD } from "../enum/acao";
+import { Acao } from "../enum/acao";
 import { Recurso } from "../enum/recurso";
 import { Permissao } from "../types";
 

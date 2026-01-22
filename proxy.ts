@@ -1,27 +1,20 @@
 import { withAuth, NextRequestWithAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import {possuiPermissao} from "@/commons/auth/autenticador";
+import {ProxyUtil} from "@/utils/ProxyUtil";
+import { Acao } from "./commons/auth/enum/acao";
 
 function proxy(request: NextRequestWithAuth) {
   const token = request.nextauth.token;
   const path = request.nextUrl.pathname;
-  const method = request.method;
 
-  const cargo = token?.cargo;
+  const cargo = token?.cargo as string;
+  const recurso = ProxyUtil.obterRecursoPorPath(path);
 
-  // preciso mapear as páginas com os recursos // FIXMEEEEE
+  console.log("cargo", cargo);
+  console.log("recurso", recurso);
 
-  if (token?.cargo != undefined){
-      // possuiPermissao(token.cargo, path, method)
-
-  }
-
-  console.log(token)
-  console.log(path)
-  console.log(method)
-  console.log(cargo)
-
-  if (true)
+  if (!possuiPermissao(cargo, recurso, Acao.LISTAR.value))
     return NextResponse.redirect(new URL("/nao-autorizado", request.url));
 }
 
