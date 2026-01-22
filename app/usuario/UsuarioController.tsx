@@ -1,12 +1,13 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { 
-  AbstractTableController, 
-  ResultadoPaginado, 
-  FiltroBusca, 
-  ConstrutorAcoesPadrao 
+import {
+  AbstractTableController,
+  ResultadoPaginado,
+  FiltroBusca,
+  ConstrutorAcoesPadrao,
 } from "@/commons/interface/AbstractTableController/AbstractTableController";
 import { UsuarioType } from "@/models/Usuario";
 import { Badge } from "@/components/ui/badge";
+import { Cargo, CargoConfig } from "@/commons/auth/enum/cargo";
 
 export class UsuarioController extends AbstractTableController<UsuarioType> {
   constructor(
@@ -32,13 +33,16 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
         header: "E-mail",
       },
       {
-        accessorKey: "isAdmin",
+        accessorKey: "cargo",
         header: "Perfil",
-        cell: ({ row }) => (
-          <Badge variant={row.original.isAdmin ? "default" : "secondary"}>
-            {row.original.isAdmin ? "Admin" : "Usuário"}
-          </Badge>
-        ),
+        cell: ({ row }) => {
+          const cargoValue = row.original.cargo as Cargo;
+          const config = CargoConfig[cargoValue] || {
+            label: "Outro",
+            variant: "outline",
+          };
+          return <Badge variant={config.variant}>{config.label}</Badge>;
+        },
       },
     ];
   }
@@ -64,12 +68,15 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
     const params = new URLSearchParams({
       page: (indicePagina + 1).toString(),
       limit: tamanhoPagina.toString(),
-      ...(filtro?.value && { filterField: filtro.field, filterValue: filtro.value }),
+      ...(filtro?.value && {
+        filterField: filtro.field,
+        filterValue: filtro.value,
+      }),
     });
 
     const response = await fetch(`/api/usuario?${params.toString()}`);
     if (!response.ok) throw new Error("Erro ao buscar usuários");
-    
+
     return response.json();
   }
 
@@ -80,8 +87,16 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
   }
 
   // Mapeamento das ações disparadas pelos botões da GenericPage
-  aoClicarAdicionar() { this.actions.onAdd(); }
-  aoClicarEditar(item: UsuarioType) { this.actions.onEdit(item); }
-  aoClicarVisualizar(item: UsuarioType) { this.actions.onView(item); }
-  aoClicarExcluir(item: UsuarioType) { this.actions.onDelete(item); }
+  aoClicarAdicionar() {
+    this.actions.onAdd();
+  }
+  aoClicarEditar(item: UsuarioType) {
+    this.actions.onEdit(item);
+  }
+  aoClicarVisualizar(item: UsuarioType) {
+    this.actions.onView(item);
+  }
+  aoClicarExcluir(item: UsuarioType) {
+    this.actions.onDelete(item);
+  }
 }

@@ -13,7 +13,7 @@ export class UsuarioService extends BaseService<UsuarioType> {
   private readonly projecaoListagem: Partial<Record<keyof UsuarioType, number>> = {
     nome: 1,
     email: 1,
-    isAdmin: 1,
+    cargo: 1,
   };
   
   async goToPage(params: GoToPageInput) {

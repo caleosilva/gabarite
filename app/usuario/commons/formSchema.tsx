@@ -23,18 +23,10 @@ export const createUsuarioFormSchema = (usuario?: UsuarioType) => {
       .or(z.literal(""))
       .transform((val) => (val === "" ? undefined : val)),
 
-    // Foto: Se vazia, vira undefined para não salvar string vazia no banco
-    fotoUrl: z
-      .url({ message: "URL da foto inválida" })
-      .optional()
-      .or(z.literal(""))
-      .default(usuario?.fotoUrl || "")
-      .transform((val) => (val === "" ? undefined : val)),
-
     // Admin: Booleano padrão
-    isAdmin: z
-      .boolean()
-      .default(usuario?.isAdmin || false),
+    cargo: z
+      .string()
+      .default(usuario?.cargo || ""),
 
     // ID: Se for string vazia (novo usuário), vira undefined para o Mongo gerar um novo
     _id: z

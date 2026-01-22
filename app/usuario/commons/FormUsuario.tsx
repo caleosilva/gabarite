@@ -6,14 +6,10 @@ import FormFieldBasic, {
   FormFieldEmail,
   FormFieldPassword,
 } from "@/commons/componentes/FormField/FormField";
-import { Switch } from "@/components/ui/switch";
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+
+import FormFieldSelect from "@/commons/componentes/FormFieldSelect/FormFieldSelect"
+import {getOpcoesCargo} from "@/commons/auth/enum/cargo";
+
 import { UsuarioType } from "@/models/Usuario";
 
 interface FormUsuarioProps {
@@ -60,6 +56,16 @@ export function FormUsuario({
           obrigatorio
         />
 
+        <FormFieldSelect
+          form={form}
+          name="cargo"
+          label="Perfil de Acesso"
+          placeholder="Selecione o cargo..."
+          options={getOpcoesCargo()}
+          obrigatorio
+          descricao="Define as permissões do usuário no sistema."
+        />
+
         {!isEditMode && (
           <>
             <FormFieldPassword
@@ -72,37 +78,6 @@ export function FormUsuario({
             />
           </>
         )}
-
-        {/* URL da Foto
-        <FormFieldBasic
-          form={form}
-          name="fotoUrl"
-          label="URL da Foto de Perfil"
-          type="url"
-          placeholder="https://exemplo.com/foto.jpg"
-        /> */}
-
-        {/* Switch para Admin */}
-        <FormField
-          control={form.control}
-          name="isAdmin"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-              <div className="space-y-0.5">
-                <FormLabel>Acesso de Administrador</FormLabel>
-                <FormDescription>
-                  Permite gerenciar outros usuários e configurações do sistema.
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
 
         {/* Campo oculto para o ID (usado no update) */}
         <input type="hidden" {...form.register("_id")} />

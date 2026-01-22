@@ -25,8 +25,7 @@ export function useUsuarioForm({ usuario, onSuccess, setErroAtivo, open }: UseUs
     defaultValues: {
       nome: usuario?.nome ?? "",
       email: usuario?.email ?? "",
-      isAdmin: usuario?.isAdmin ?? false,
-      fotoUrl: usuario?.fotoUrl ?? "",
+      cargo: usuario?.cargo ?? "",
       senha: "",
       _id: usuario?._id?.toString() ?? "",
     },
@@ -44,8 +43,7 @@ export function useUsuarioForm({ usuario, onSuccess, setErroAtivo, open }: UseUs
             form.reset({
               nome: data.nome,
               email: data.email,
-              isAdmin: data.isAdmin,
-              fotoUrl: data.fotoUrl || "",
+              cargo: data.cargo,
               _id: data._id,
               senha: "",
             });
@@ -60,8 +58,7 @@ export function useUsuarioForm({ usuario, onSuccess, setErroAtivo, open }: UseUs
         form.reset({
           nome: "",
           email: "",
-          isAdmin: false,
-          fotoUrl: "",
+          cargo: "",
           senha: "",
           _id: "",
         });
