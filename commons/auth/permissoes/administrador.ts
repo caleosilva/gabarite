@@ -4,39 +4,39 @@ import { Permissao } from "../types";
 
 export const administrador: Permissao[] = [
   { 
-    recurso: Recurso.DASHBOARD, 
+    recurso: Recurso.DASHBOARD.value, 
     acoes: obterTodasAcoes() 
   },
   { 
-    recurso: Recurso.ESTUDO, 
+    recurso: Recurso.ESTUDO.value, 
     acoes: obterTodasAcoes() 
   },
   {
-    recurso: Recurso.USUARIO,
+    recurso: Recurso.USUARIO.value,
     acoes: obterTodasAcoes(),
   },
   {
-    recurso: Recurso.CONCURSO,
+    recurso: Recurso.CONCURSO.value,
     acoes: obterTodasAcoes(),
   },
   {
-    recurso: Recurso.BANCA,
+    recurso: Recurso.BANCA.value,
     acoes: obterTodasAcoes(),
   },
   {
-    recurso: Recurso.QUESTAO,
+    recurso: Recurso.QUESTAO.value,
     acoes: obterTodasAcoes(),
   },
   {
-    recurso: Recurso.ORGAO,
+    recurso: Recurso.ORGAO.value,
     acoes: obterTodasAcoes(),
   },
   {
-    recurso: Recurso.DISCIPLINA,
+    recurso: Recurso.DISCIPLINA.value,
     acoes: obterTodasAcoes(),
   },
   {
-    recurso: Recurso.PERFIL,
+    recurso: Recurso.PERFIL.value,
     acoes: obterTodasAcoes(),
   },
 ];

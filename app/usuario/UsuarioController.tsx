@@ -7,7 +7,7 @@ import {
 } from "@/commons/interface/AbstractTableController/AbstractTableController";
 import { UsuarioType } from "@/models/Usuario";
 import { Badge } from "@/components/ui/badge";
-import { Cargo, CargoConfig } from "@/commons/auth/enum/cargo";
+import { getCargoByValue, CargoType } from "@/commons/auth/enum/cargo";
 
 export class UsuarioController extends AbstractTableController<UsuarioType> {
   constructor(
@@ -36,14 +36,17 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
         accessorKey: "cargo",
         header: "Perfil",
         cell: ({ row }) => {
-          const cargoValue = row.original.cargo as Cargo;
-          const config = CargoConfig[cargoValue] || {
-            label: "Outro",
-            variant: "outline",
-          };
-          return <Badge variant={config.variant}>{config.label}</Badge>;
+          const cargoValue = row.original.cargo;
+          
+          const config = getCargoByValue(cargoValue);
+
+          return (
+            <Badge variant={config?.variant ?? "outline"}>
+              {config?.label ?? "Não Definido"}
+            </Badge>
+          );
         },
-      },
+      }
     ];
   }
 

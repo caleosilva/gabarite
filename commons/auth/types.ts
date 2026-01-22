@@ -1,7 +1,4 @@
-import { Recurso } from "./enum/recurso";
-import { Acao } from "./enum/acao";
-
 export interface Permissao {
-  recurso: Recurso;
-  acoes: Acao[];
+  recurso: string; // Ou RecursoType['value'] se preferir tipagem estrita
+  acoes: string[];
 }

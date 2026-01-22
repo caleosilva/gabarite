@@ -1,19 +1,24 @@
-import {SelectOption} from "@/commons/componentes/FormFieldSelect/FormFieldSelect"
+import { SelectOption } from "@/commons/componentes/FormFieldSelect/FormFieldSelect";
 
-export enum Cargo {
-  ESTUDANTE = 'estudante',
-  ADMINISTRADOR = 'administrador'
-}
+export const Cargo = {
+  ESTUDANTE:      { label: 'Estudante',  value: 'estudante',     variant: 'secondary' },
+  ADMINISTRADOR:  { label: 'Admin',      value: 'administrador', variant: 'default' },
+} as const;
 
+export type CargoType = (typeof Cargo)[keyof typeof Cargo];
 
-export const CargoConfig: Record<Cargo, { label: string; variant: any }> = {
-  [Cargo.ADMINISTRADOR]: { label: "Admin", variant: "default" },
-  [Cargo.ESTUDANTE]: { label: "Estudante", variant: "secondary" },
+export const getCargoByValue = (value: string): CargoType | undefined => {
+  return obterTodosCargos().find((c) => c.value === value);
+};
+
+// =============== Funções Utilitárias ===============
+export const obterTodosCargos = (): CargoType[] => {
+  return Object.values(Cargo);
 };
 
 export const getOpcoesCargo = (): SelectOption[] => {
-  return (Object.keys(CargoConfig) as Cargo[]).map((key) => ({
-    label: CargoConfig[key].label,
-    value: key,
+  return obterTodosCargos().map((item) => ({
+    label: item.label,
+    value: item.value,
   }));
 };

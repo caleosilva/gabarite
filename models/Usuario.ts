@@ -18,8 +18,8 @@ const usuarioSchema = new mongoose.Schema(
     },
     cargo: {
       type: String,
-      enum: Object.values(Cargo),
-      default: Cargo.ESTUDANTE,
+      enum: Object.values(Cargo).map(c => c.value),
+      default: Cargo.ESTUDANTE.value,
       required: true,
     },
     excluido: { type: Boolean, default: false, required: true },

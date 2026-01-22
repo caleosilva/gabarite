@@ -4,35 +4,35 @@ import { Permissao } from "../types";
 
 export const estudante: Permissao[] = [
   { 
-    recurso: Recurso.DASHBOARD, 
-    acoes: [Acao.VISUALIZAR] 
+    recurso: Recurso.DASHBOARD.value,
+    acoes: [Acao.VISUALIZAR.value] 
   },
   { 
-    recurso: Recurso.ESTUDO, 
+    recurso: Recurso.ESTUDO.value, 
     acoes: [] 
   },
   {
-    recurso: Recurso.CONCURSO,
-    acoes: [Acao.VISUALIZAR, Acao.LISTAR],
+    recurso: Recurso.CONCURSO.value,
+    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
   },
   {
-    recurso: Recurso.BANCA,
-    acoes: [Acao.VISUALIZAR, Acao.LISTAR],
+    recurso: Recurso.BANCA.value,
+    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
   },
   {
-    recurso: Recurso.QUESTAO,
-    acoes: [Acao.VISUALIZAR, Acao.LISTAR],
+    recurso: Recurso.QUESTAO.value,
+    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
   },
   {
-    recurso: Recurso.ORGAO,
-    acoes: [Acao.VISUALIZAR, Acao.LISTAR],
+    recurso: Recurso.ORGAO.value,
+    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
   },
   {
-    recurso: Recurso.DISCIPLINA,
-    acoes: [Acao.VISUALIZAR, Acao.LISTAR],
+    recurso: Recurso.DISCIPLINA.value,
+    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
   },
   {
-    recurso: Recurso.PERFIL,
-    acoes: [Acao.VISUALIZAR, Acao.EDITAR],
+    recurso: Recurso.PERFIL.value,
+    acoes: [Acao.VISUALIZAR.value, Acao.EDITAR.value],
   },
 ];
