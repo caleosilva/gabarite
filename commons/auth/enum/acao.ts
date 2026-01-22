@@ -1,9 +1,9 @@
 export const Acao = {
-  CADASTRAR:      { label: 'Cadastrar',  value: 'cadastrar' },
-  EDITAR:         { label: 'Editar',     value: 'editar' },
-  EXCLUIR:        { label: 'Excluir',    value: 'excluir' },
-  VISUALIZAR:     { label: 'Visualizar', value: 'visualizar' },
-  ACESSAR_PAGINA: { label: 'Acessar Página',     value: 'acessar_pagina' },
+  CADASTRAR:      { label: 'Cadastrar',       value: 'cadastrar' },
+  EDITAR:         { label: 'Editar',          value: 'editar' },
+  EXCLUIR:        { label: 'Excluir',         value: 'excluir' },
+  VISUALIZAR:     { label: 'Visualizar',      value: 'visualizar' },
+  ACESSAR_PAGINA: { label: 'Acessar Página',  value: 'acessar_pagina' },
 } as const;
 
 export type AcaoType = (typeof Acao)[keyof typeof Acao];

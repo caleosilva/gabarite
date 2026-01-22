@@ -1,5 +1,7 @@
 import { SelectOption } from "@/commons/componentes/FormFieldSelect/FormFieldSelect";
 
+import { Recurso } from "./recurso";
+
 export const Cargo = {
   ESTUDANTE:      { label: 'Estudante',  value: 'estudante',     variant: 'secondary' },
   ADMINISTRADOR:  { label: 'Admin',      value: 'administrador', variant: 'default' },
