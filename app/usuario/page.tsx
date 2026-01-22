@@ -37,14 +37,12 @@ export default function UsuariosPage() {
 
   return (
     <div className="w-full">
-      {/* Passamos o state explicitamente para a GenericTablePage */}
       <GenericTablePage
         titulo="Gestão de Usuários"
         controlador={controlador}
         state={tableState}
       />
 
-      {/* Agora o Modal tem acesso ao setErroAtivo do estado global da página */}
       <CadastrarEditarUsuario
         open={openCadastro}
         setOpen={setOpenCadastro}
