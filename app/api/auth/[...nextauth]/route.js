@@ -21,9 +21,7 @@ const authOptions = {
           const user = await Usuario.findOne({
             email: credentials.email,
             excluido: 0,
-          }).select("_id nome email senha isAdmin");
-
-          console.log("user: ", user);
+          }).select("_id nome email senha cargo");
 
           if (!user) return null;
 
@@ -33,15 +31,12 @@ const authOptions = {
             user.senha
           );
 
-          console.log("senhaDecriptada: ", senhaDecriptada)
-          console.log("match: ", match)
-
           if (match) {
             return {
               id: user._id.toString(),
               name: user.nome,
               email: user.email,
-              isAdmin: user.isAdmin || false,
+              cargo: user.cargo
             };
           }
 
@@ -67,7 +62,7 @@ const authOptions = {
         token._id = user.id;
         token.name = user.name;
         token.email = user.email;
-        token.isAdmin = user.isAdmin;
+        token.cargo = user.cargo;
       }
       return token;
     },
@@ -76,7 +71,7 @@ const authOptions = {
         session.user._id = token._id;
         session.user.name = token.name;
         session.user.email = token.email;
-        session.user.isAdmin = token.isAdmin;
+        session.user.cargo = token.cargo;
       }
       return session;
     },
