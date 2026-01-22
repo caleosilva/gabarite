@@ -1,9 +1,9 @@
 export const Acao = {
-  CADASTRAR:  { label: 'Cadastrar',  value: 'cadastrar' },
-  EDITAR:     { label: 'Editar',     value: 'editar' },
-  EXCLUIR:    { label: 'Excluir',    value: 'excluir' },
-  VISUALIZAR: { label: 'Visualizar', value: 'visualizar' },
-  LISTAR:     { label: 'Listar',     value: 'listar' },
+  CADASTRAR:      { label: 'Cadastrar',  value: 'cadastrar' },
+  EDITAR:         { label: 'Editar',     value: 'editar' },
+  EXCLUIR:        { label: 'Excluir',    value: 'excluir' },
+  VISUALIZAR:     { label: 'Visualizar', value: 'visualizar' },
+  ACESSAR_PAGINA: { label: 'Acessar Página',     value: 'acessar_pagina' },
 } as const;
 
 export type AcaoType = (typeof Acao)[keyof typeof Acao];
@@ -20,12 +20,12 @@ export const obterAcoesCRUD = (): AcaoType[] => {
     Acao.EDITAR,
     Acao.EXCLUIR,
     Acao.VISUALIZAR,
-    Acao.LISTAR,
+    Acao.ACESSAR_PAGINA,
   ];
 };
 
 export const obterAcoesLeitura = (): AcaoType[] => {
-  return [Acao.VISUALIZAR, Acao.LISTAR];
+  return [Acao.VISUALIZAR, Acao.ACESSAR_PAGINA];
 };
 
 export const obterTodasAcoes = (): AcaoType['value'][] => {

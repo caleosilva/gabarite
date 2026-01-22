@@ -5,34 +5,34 @@ import { Permissao } from "../types";
 export const estudante: Permissao[] = [
   { 
     recurso: Recurso.DASHBOARD.value,
-    acoes: [Acao.VISUALIZAR.value] 
+    acoes: [Acao.ACESSAR_PAGINA.value] 
   },
   { 
     recurso: Recurso.ESTUDO.value, 
-    acoes: [] 
+    acoes: [Acao.ACESSAR_PAGINA.value] 
   },
   {
     recurso: Recurso.CONCURSO.value,
-    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
+    acoes: [Acao.ACESSAR_PAGINA.value],
   },
   {
     recurso: Recurso.BANCA.value,
-    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
+    acoes: [Acao.ACESSAR_PAGINA.value],
   },
   {
     recurso: Recurso.QUESTAO.value,
-    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
+    acoes: [Acao.ACESSAR_PAGINA.value],
   },
   {
     recurso: Recurso.ORGAO.value,
-    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
+    acoes: [Acao.ACESSAR_PAGINA.value],
   },
   {
     recurso: Recurso.DISCIPLINA.value,
-    acoes: [Acao.VISUALIZAR.value, Acao.LISTAR.value],
+    acoes: [Acao.ACESSAR_PAGINA.value],
   },
   {
     recurso: Recurso.PERFIL.value,
-    acoes: [Acao.VISUALIZAR.value, Acao.EDITAR.value],
+    acoes: [Acao.ACESSAR_PAGINA.value],
   },
 ];

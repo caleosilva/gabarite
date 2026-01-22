@@ -11,10 +11,7 @@ function proxy(request: NextRequestWithAuth) {
   const cargo = token?.cargo as string;
   const recurso = ProxyUtil.obterRecursoPorPath(path);
 
-  console.log("cargo", cargo);
-  console.log("recurso", recurso);
-
-  if (!possuiPermissao(cargo, recurso, Acao.LISTAR.value))
+  if (!possuiPermissao(cargo, recurso, Acao.ACESSAR_PAGINA.value))
     return NextResponse.redirect(new URL("/nao-autorizado", request.url));
 }
 
