@@ -15,18 +15,18 @@ export const getAcaoByValue = (value: string): AcaoType | undefined => {
 
 
 // Funções utilitárias
-export const obterAcoesCRUD = (): AcaoType[] => {
+export const obterAcoesCRUD = (): AcaoType['value'][] => {
   return [
-    Acao.CADASTRAR,
-    Acao.EDITAR,
-    Acao.EXCLUIR,
-    Acao.VISUALIZAR,
-    Acao.ACESSAR_PAGINA,
+    Acao.CADASTRAR.value,
+    Acao.EDITAR.value,
+    Acao.EXCLUIR.value,
+    Acao.VISUALIZAR.value,
+    Acao.ACESSAR_PAGINA.value,
   ];
 };
 
-export const obterAcoesLeitura = (): AcaoType[] => {
-  return [Acao.VISUALIZAR, Acao.ACESSAR_PAGINA];
+export const obterAcoesLeitura = (): AcaoType['value'][] => {
+  return [Acao.VISUALIZAR.value, Acao.ACESSAR_PAGINA.value];
 };
 
 export const obterTodasAcoes = (): AcaoType['value'][] => {

@@ -35,15 +35,4 @@ export const estudante: Permissao[] = [
     recurso: Recurso.PERFIL.value,
     acoes: [Acao.ACESSAR_PAGINA.value],
   },
-  {
-    recurso: Recurso.USUARIO.value,
-    acoes: [
-      Acao.CADASTRAR.value,
-      Acao.EDITAR.value,
-      Acao.EXCLUIR.value,
-      Acao.VISUALIZAR.value,
-      Acao.ACESSAR_PAGINA.value,
-      Acao.LISTAR.value,
-    ],
-  },
 ];

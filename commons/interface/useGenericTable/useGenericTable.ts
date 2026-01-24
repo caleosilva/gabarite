@@ -37,9 +37,10 @@ export function useGenericTable<T>(
       setDados(resultado.data);
       setTotalRegistros(resultado.total);
     } catch (erro: any) {
+      console.log("erro", erro)
       setErroAtivo({
         titulo: "Erro de Carregamento",
-        msg: erro.mensagem || "Não foi possível sincronizar os dados.",
+        msg: erro.message || "Não foi possível sincronizar os dados.",
       });
       console.error("Erro ao buscar dados:", erro);
     } finally {

@@ -1,4 +1,4 @@
-import { obterTodasAcoes } from "../enum/acao";
+import { obterTodasAcoes, obterAcoesLeitura } from "../enum/acao";
 import { Recurso } from "../enum/recurso";
 import { Permissao } from "../types";
 
@@ -13,7 +13,7 @@ export const administrador: Permissao[] = [
   },
   {
     recurso: Recurso.USUARIO.value,
-    acoes: obterTodasAcoes(),
+    acoes: obterAcoesLeitura(),
   },
   {
     recurso: Recurso.CONCURSO.value,

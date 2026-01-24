@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useNavBar } from "./useNavBar";
+import { useNavBar } from "./hooks/useNavBar";
 
 import {
   NavigationMenu,

@@ -16,7 +16,7 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
       onEdit: (item: UsuarioType) => void;
       onView: (item: UsuarioType) => void;
       onDelete: (item: UsuarioType) => void;
-    }
+    },
   ) {
     super();
   }
@@ -37,7 +37,7 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
         header: "Perfil",
         cell: ({ row }) => {
           const cargoValue = row.original.cargo;
-          
+
           const config = getCargoByValue(cargoValue);
 
           return (
@@ -46,7 +46,7 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
             </Badge>
           );
         },
-      }
+      },
     ];
   }
 
@@ -66,7 +66,7 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
   async fetchData(
     indicePagina: number,
     tamanhoPagina: number,
-    filtro?: FiltroBusca
+    filtro?: FiltroBusca,
   ): Promise<ResultadoPaginado<UsuarioType>> {
     const params = new URLSearchParams({
       page: (indicePagina + 1).toString(),
@@ -78,9 +78,20 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
     });
 
     const response = await fetch(`/api/usuario?${params.toString()}`);
-    if (!response.ok) throw new Error("Erro ao buscar usuários");
 
-    return response.json();
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+
+      // 2. Extrai a mensagem específica ou define a genérica
+      const mensagemDeErro =
+        errorData?.msg || errorData?.message || "Erro ao buscar usuários";
+
+      // 3. Lança o erro com a mensagem da API (ou a genérica como fallback)
+      throw new Error(mensagemDeErro);
+    }
+
+    const data = await response.json();
+    return data;
   }
 
   // Personalização dos botões usando o ConstrutorBotao que você enviou
