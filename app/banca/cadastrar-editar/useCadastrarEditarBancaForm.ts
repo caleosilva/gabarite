@@ -3,23 +3,23 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  createBancaFormSchema,
+  createformCadastrarEditarSchema,
   BancaFormInput,
   BancaFormOutput,
-} from "./formSchema";
+} from "./formCadastrarEditarSchema";
 import { BancaType } from "@/models/Banca";
 
-interface UseBancaFormProps {
+interface useCadastrarEditarBancaFormProps {
   banca?: BancaType;
   onSuccess: () => void;
   open?: boolean;
 }
 
-export function useBancaForm({
+export function useCadastrarEditarBancaForm({
   banca,
   onSuccess,
   open,
-}: UseBancaFormProps) {
+}: useCadastrarEditarBancaFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,7 +27,7 @@ export function useBancaForm({
   const idForm = isEditMode ? "formEditarBanca" : "formCadastrarBanca";
 
   const form = useForm<BancaFormInput>({
-    resolver: zodResolver(createBancaFormSchema(banca)),
+    resolver: zodResolver(createformCadastrarEditarSchema(banca)),
     defaultValues: {
       nome: banca?.nome ?? "",
       _id: banca?._id?.toString() ?? "",

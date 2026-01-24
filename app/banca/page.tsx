@@ -5,9 +5,9 @@ import { BancaType } from "@/models/Banca";
 import { GenericTablePage } from "@/commons/interface/GenericTablePage/GenericTablePage";
 import { useGenericTable } from "@/commons/interface/useGenericTable/useGenericTable";
 
-import {BancaController} from "@/app/banca/BancaController";
-import CadastrarEditarBanca from "./dialogs/CadastrarEditarBanca";
-import ExcluirBanca from "./dialogs/ExcluirBanca";
+import {BancaTableController} from "@/app/banca/BancaTableController";
+import CadastrarEditarBanca from "./cadastrar-editar/CadastrarEditarBanca";
+import ExcluirBanca from "./excluir/ExcluirBanca";
 
 export default function BancasPage() {
   const [update, setUpdate] = useState(0);
@@ -33,7 +33,7 @@ export default function BancasPage() {
     },
   };
 
-  const controlador = useMemo(() => new BancaController(handlers), []);
+  const controlador = useMemo(() => new BancaTableController(handlers), []);
   const tableState = useGenericTable(controlador, update);
 
   return (
@@ -57,7 +57,6 @@ export default function BancasPage() {
         setOpen={setOpenExcluir}
         banca={bancaSelecionada}
         onSuccess={() => setUpdate((prev) => prev + 1)}
-        setErroAtivo={tableState.setErroAtivo}
       />
     </div>
   );

@@ -6,9 +6,8 @@ import {
   ConstrutorAcoesPadrao,
 } from "@/commons/interface/AbstractTableController/AbstractTableController";
 import { BancaType } from "@/models/Banca";
-import { ErroUtil } from "@/utils/ErroUtil";
 
-export class BancaController extends AbstractTableController<BancaType> {
+export class BancaTableController extends AbstractTableController<BancaType> {
   constructor(
     private actions: {
       onAdd: () => void;
@@ -57,7 +56,7 @@ export class BancaController extends AbstractTableController<BancaType> {
     const response = await fetch(`/api/banca?${params.toString()}`);
 
     if (!response.ok) {
-      await ErroUtil.processarErroAPI(response, "Erro ao buscar bancas");
+      await super.tratarErro(response, "Erro ao buscar bancas");
     }
 
     const data = await response.json();

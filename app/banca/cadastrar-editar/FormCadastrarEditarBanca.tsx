@@ -5,7 +5,7 @@ import { UseFormReturn } from "react-hook-form";
 import FormFieldBasic from "@/commons/componentes/FormField/FormField";
 import { BancaType } from "@/models/Banca";
 
-interface FormBancaProps {
+interface FormCadastrarEditarBancaProps {
   form: UseFormReturn<any>;
   onSubmit: (values: any) => void;
   idForm: string;
@@ -13,12 +13,12 @@ interface FormBancaProps {
   banca?: BancaType;
 }
 
-export function FormBanca({
+export function FormCadastrarEditarBanca({
   form,
   onSubmit,
   idForm,
   isEditMode = false,
-}: FormBancaProps) {
+}: FormCadastrarEditarBancaProps) {
   return (
     <Form {...form}>
       <form

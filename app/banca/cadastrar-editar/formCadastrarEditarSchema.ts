@@ -1,7 +1,7 @@
 import * as z from "zod";
 import { BancaType } from "@/models/Banca";
 
-export const createBancaFormSchema = (banca?: BancaType) => {
+export const createformCadastrarEditarSchema = (banca?: BancaType) => {
   return z.object({
     nome: z
       .string()
@@ -17,5 +17,5 @@ export const createBancaFormSchema = (banca?: BancaType) => {
   });
 };
 
-export type BancaFormInput = z.input<ReturnType<typeof createBancaFormSchema>>;
-export type BancaFormOutput = z.output<ReturnType<typeof createBancaFormSchema>>;
+export type BancaFormInput = z.input<ReturnType<typeof createformCadastrarEditarSchema>>;
+export type BancaFormOutput = z.output<ReturnType<typeof createformCadastrarEditarSchema>>;

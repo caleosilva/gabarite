@@ -1,18 +1,17 @@
 "use client";
 
-import { toast } from "sonner";
-import * as React from "react";
 import DialogDefault from "@/commons/componentes/DialogDefault/DialogDefault";
 import { FormFieldDisplay } from "@/commons/componentes/FormFieldDisplay/FormFieldDisplay";
 import { BancaType } from "@/models/Banca";
 import { AlertTriangle } from "lucide-react";
+import {useExcluirBanca} from "./useExcluirBanca";
+
 
 interface ExcluirBancaProps {
   banca: BancaType | undefined;
   open: boolean;
   setOpen: (open: boolean) => void;
   onSuccess: () => void;
-  setErroAtivo?: (erro: { titulo: string; msg: string } | null) => void;
 }
 
 export default function ExcluirBanca({
@@ -20,52 +19,14 @@ export default function ExcluirBanca({
   open,
   setOpen,
   onSuccess,
-  setErroAtivo,
 }: ExcluirBancaProps) {
+  const { isSubmitting, handleExcluir } = useExcluirBanca({
+    banca,
+    onSuccess,
+    setOpen,
+  });
+
   if (!banca) return null;
-  
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-
-  const handleExcluir = async () => {
-  // 1. Iniciamos o toast de carregamento
-  const toastId = toast.loading("Excluindo banca...");
-
-  try {
-    setIsSubmitting(true);
-
-    const response = await fetch(`/api/banca?id=${banca._id}`, {
-      method: "DELETE",
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      // 2. Erro vindo da API
-      toast.error(data.titulo || "Erro ao Excluir", {
-        description: data.msg || "Não foi possível excluir a banca.",
-        id: toastId,
-      });
-      return;
-    }
-
-    // 3. Sucesso
-    toast.success("Banca removida", {
-      description: "O registro foi excluído permanentemente.",
-      id: toastId,
-    });
-
-    setOpen(false);
-    onSuccess();
-  } catch (error) {
-    // 4. Erro de rede
-    toast.error("Erro de Conexão", {
-      description: "Falha ao comunicar com o servidor.",
-      id: toastId,
-    });
-  } finally {
-    setIsSubmitting(false);
-  }
-};
 
   return (
     <DialogDefault

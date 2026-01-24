@@ -1,9 +1,9 @@
 "use client";
 
 import DialogDefault from "@/commons/componentes/DialogDefault/DialogDefault";
-import { FormBanca } from "../commons/FormBanca"; 
+import { FormCadastrarEditarBanca } from "./FormCadastrarEditarBanca"; 
 import { BancaType } from "@/models/Banca";
-import { useBancaForm } from "../commons/useBancaForm";
+import { useCadastrarEditarBancaForm } from "./useCadastrarEditarBancaForm";
 
 interface CadastrarEditarBancaProps {
   update: boolean;
@@ -20,7 +20,7 @@ export default function CadastrarEditarBanca({
   setOpen,
 }: CadastrarEditarBancaProps) {
   
-  const { form, isSubmitting, isEditMode, idForm, onSubmit } = useBancaForm({
+  const { form, isSubmitting, isEditMode, idForm, onSubmit } = useCadastrarEditarBancaForm({
     banca,
     open,
     onSuccess: () => {
@@ -41,7 +41,7 @@ export default function CadastrarEditarBanca({
       submitLabel={isEditMode ? "Atualizar" : "Cadastrar"}
     >
       <div className="space-y-4">
-        <FormBanca
+        <FormCadastrarEditarBanca
           form={form}
           idForm={idForm}
           onSubmit={onSubmit}

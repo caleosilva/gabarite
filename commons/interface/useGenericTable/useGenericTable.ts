@@ -4,7 +4,6 @@ import {
   AbstractTableController,
   FiltroBusca,
 } from "@/commons/interface/AbstractTableController/AbstractTableController";
-import { ErroUtil } from "@/utils/ErroUtil";
 
 export function useGenericTable<T>(
   controlador: AbstractTableController<T>,
@@ -38,7 +37,17 @@ export function useGenericTable<T>(
       setDados(resultado.data);
       setTotalRegistros(resultado.total);
     } catch (erro: any) {
-      setErroAtivo(ErroUtil.tratarErro(erro));
+      if (erro.titulo && erro.msg) {
+        setErroAtivo({
+          titulo: erro.titulo,
+          msg: erro.msg,
+        });
+      } else {
+        setErroAtivo({
+          titulo: "Erro de Carregamento",
+          msg: "Não foi possível sincronizar os dados.",
+        });
+      }
     } finally {
       setEstaCarregando(false);
     }

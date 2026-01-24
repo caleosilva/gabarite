@@ -24,7 +24,7 @@ export abstract class BaseRoute {
         { 
           msg: error.message, 
           code: error.statusCode,
-          titulo: this.getTituloPorStatus(error.statusCode)
+          titulo: AppError.obterLabel(error.statusCode)
         }, 
         { status: error.statusCode }
       );
@@ -39,16 +39,6 @@ export abstract class BaseRoute {
       }, 
       { status: 500 }
     );
-  }
-
-  private getTituloPorStatus(status: number): string {
-    switch (status) {
-      case 401: return "Não Autenticado";
-      case 403: return "Acesso Negado";
-      case 409: return "Conflito de Dados";
-      case 404: return "Não Encontrado";
-      default: return "Erro na Operação";
-    }
   }
 }
 
