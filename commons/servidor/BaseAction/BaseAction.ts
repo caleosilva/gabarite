@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { HttpCode, AppError } from "@/commons/servidor/AppError/AppError";
 
 export abstract class BaseAction<TInput, TOutput> {
+  protected isPublic: boolean = false;
 
   protected abstract recurso: string;
   protected abstract acao: string;
@@ -20,6 +21,8 @@ export abstract class BaseAction<TInput, TOutput> {
   }
 
   protected async authorize(): Promise<void> {
+    if (this.isPublic) return;
+    
     if (!this.recurso || !this.acao) {
       throw new AppError(HttpCode.INTERNAL_SERVER_ERROR, "Configuração de segurança incompleta (recurso/ação não definidos).");;
     }

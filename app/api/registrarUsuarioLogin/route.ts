@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     const payload = { ...body, isAdmin: false };
     
     const service = new UsuarioService();
-    const result = await service.cadastrar(payload);
+    const result = await service.cadastrar(payload, true);
     
     return NextResponse.json(result);
   } catch (error: any) {

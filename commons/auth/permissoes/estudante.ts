@@ -3,13 +3,13 @@ import { Recurso } from "../enum/recurso";
 import { Permissao } from "../types";
 
 export const estudante: Permissao[] = [
-  { 
+  {
     recurso: Recurso.DASHBOARD.value,
-    acoes: [Acao.ACESSAR_PAGINA.value] 
+    acoes: [Acao.ACESSAR_PAGINA.value],
   },
-  { 
-    recurso: Recurso.ESTUDO.value, 
-    acoes: [Acao.ACESSAR_PAGINA.value] 
+  {
+    recurso: Recurso.ESTUDO.value,
+    acoes: [Acao.ACESSAR_PAGINA.value],
   },
   {
     recurso: Recurso.CONCURSO.value,
@@ -37,6 +37,13 @@ export const estudante: Permissao[] = [
   },
   {
     recurso: Recurso.USUARIO.value,
-    acoes: [],
+    acoes: [
+      Acao.CADASTRAR.value,
+      Acao.EDITAR.value,
+      Acao.EXCLUIR.value,
+      Acao.VISUALIZAR.value,
+      Acao.ACESSAR_PAGINA.value,
+      Acao.LISTAR.value,
+    ],
   },
 ];

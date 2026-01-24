@@ -6,8 +6,12 @@ import {CryptoUtils} from "@/utils/CryptoUtils"
 import { Recurso } from "@/commons/auth/enum/recurso";
 
 export class CadastrarUsuarioAction extends BaseActionCadastrar<UsuarioType> {
-  constructor(model: Model<UsuarioType>) {
-    super(model, Recurso.USUARIO.value);
+
+  constructor(
+    model: Model<UsuarioType>,
+    isPublic: boolean = false
+  ) {
+    super(model, Recurso.USUARIO.value, isPublic);
   }
 
   protected async validate(data: Partial<UsuarioType>): Promise<void> {

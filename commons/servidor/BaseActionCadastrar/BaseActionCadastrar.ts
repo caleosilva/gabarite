@@ -4,15 +4,18 @@ import { AppError, HttpCode } from "../AppError/AppError";
 import { Acao } from "@/commons/auth/enum/acao";
 
 export class BaseActionCadastrar<T> extends BaseAction<Partial<T>, T> {
+  protected isPublic = false;
   protected recurso: string;
   protected acao = Acao.CADASTRAR.value;
 
   constructor(
     protected model: Model<T>,
     recurso: string,
+    isPublic: boolean = false
   ) {
     super();
     this.recurso = recurso;
+    this.isPublic = isPublic;
   }
 
   protected async validate(data: Partial<T>): Promise<void> {

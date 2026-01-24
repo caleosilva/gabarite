@@ -21,8 +21,8 @@ export class UsuarioService extends BaseService<UsuarioType> {
     return new BaseActionGoToPage(Usuario, this.recurso, this.projecaoListagem).run(params);
   }
 
-  async cadastrar(data: UsuarioType) {
-    return new CadastrarUsuarioAction(Usuario).run(data);
+  async cadastrar(data: UsuarioType, isPublic: boolean = false) {
+    return new CadastrarUsuarioAction(Usuario, isPublic).run(data);
   }
 
   async editar(id: string, data: Partial<UsuarioType>) {
