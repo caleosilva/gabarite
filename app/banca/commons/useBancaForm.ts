@@ -1,20 +1,28 @@
+import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createBancaFormSchema, BancaFormInput, BancaFormOutput } from "./formSchema";
+import {
+  createBancaFormSchema,
+  BancaFormInput,
+  BancaFormOutput,
+} from "./formSchema";
 import { BancaType } from "@/models/Banca";
 
 interface UseBancaFormProps {
   banca?: BancaType;
   onSuccess: () => void;
-  setErroAtivo?: (erro: { titulo: string; msg: string } | null) => void;
   open?: boolean;
 }
 
-export function useBancaForm({ banca, onSuccess, setErroAtivo, open }: UseBancaFormProps) {
+export function useBancaForm({
+  banca,
+  onSuccess,
+  open,
+}: UseBancaFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const isEditMode = !!banca;
   const idForm = isEditMode ? "formEditarBanca" : "formCadastrarBanca";
 
@@ -25,29 +33,36 @@ export function useBancaForm({ banca, onSuccess, setErroAtivo, open }: UseBancaF
       _id: banca?._id?.toString() ?? "",
     },
   });
-  
-  // Carrega dados frescos se estiver editando
+
+  // Carrega dados atualizados se estiver editando
   useEffect(() => {
     const buscarDadosBanca = async () => {
       if (open && isEditMode && banca?._id) {
         try {
           setIsLoading(true);
           const response = await fetch(`/api/banca?id=${banca._id}`);
+
+          if (!response.ok) {
+            throw new Error("Não foi possível carregar os dados.");
+          }
+
           const data = await response.json();
 
-          if (response.ok && data) {
-            form.reset({
+          if (data) {
+            form.reset({  
               nome: data.nome,
               _id: data._id,
             });
           }
         } catch (error) {
-          console.error("Erro ao carregar dados da banca:", error);
+          toast.error("Erro ao carregar dados", {
+            description:
+              "Não conseguimos buscar as informações atualizadas da banca.",
+          });
         } finally {
           setIsLoading(false);
         }
       } else if (open && !isEditMode) {
-        // Limpa o formulário ao abrir para cadastro
         form.reset({
           nome: "",
           _id: "",
@@ -59,10 +74,15 @@ export function useBancaForm({ banca, onSuccess, setErroAtivo, open }: UseBancaF
   }, [open, isEditMode, banca?._id, form]);
 
   const onSubmit = async (values: BancaFormOutput) => {
+    // ID único para o toast de carregamento
+    const toastId = toast.loading(
+      isEditMode ? "Atualizando banca..." : "Criando banca...",
+    );
+
     try {
       setIsSubmitting(true);
       let url = "/api/banca";
-      
+
       if (isEditMode && banca?._id) url += `?id=${banca._id}`;
 
       const response = await fetch(url, {
@@ -74,16 +94,28 @@ export function useBancaForm({ banca, onSuccess, setErroAtivo, open }: UseBancaF
       const data = await response.json();
 
       if (!response.ok) {
-        const errorData = { titulo: data.titulo || "Atenção", msg: data.msg || "Erro ao salvar." };
-        setErroAtivo ? setErroAtivo(errorData) : alert(`${errorData.titulo}: ${errorData.msg}`);
+        toast.error(data.titulo || "Atenção", {
+          description: data.msg || "Erro ao salvar os dados.",
+          id: toastId,
+        });
         return;
       }
+
+      toast.success(
+        isEditMode ? "Banca atualizada!" : "Banca criada com sucesso!",
+        {
+          description: "As alterações já estão disponíveis no sistema.",
+          id: toastId,
+        },
+      );
 
       form.reset();
       onSuccess();
     } catch (error) {
-      const connError = { titulo: "Erro de Conexão", msg: "Falha ao comunicar com o servidor." };
-      setErroAtivo ? setErroAtivo(connError) : alert(connError.msg);
+      toast.error("Erro de Conexão", {
+        description: "Não foi possível comunicar com o servidor.",
+        id: toastId,
+      });
     } finally {
       setIsSubmitting(false);
     }

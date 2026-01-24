@@ -6,6 +6,7 @@ import {
   ConstrutorAcoesPadrao,
 } from "@/commons/interface/AbstractTableController/AbstractTableController";
 import { BancaType } from "@/models/Banca";
+import { ErroUtil } from "@/utils/ErroUtil";
 
 export class BancaController extends AbstractTableController<BancaType> {
   constructor(
@@ -31,9 +32,7 @@ export class BancaController extends AbstractTableController<BancaType> {
 
   // Define os campos que aparecem no Select de busca da GenericPage
   obterCamposPesquisaveis() {
-    return [
-      { label: "Nome", value: "nome" },
-    ];
+    return [{ label: "Nome", value: "nome" }];
   }
 
   getRowId(item: BancaType): string {
@@ -58,10 +57,7 @@ export class BancaController extends AbstractTableController<BancaType> {
     const response = await fetch(`/api/banca?${params.toString()}`);
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => null);
-      const mensagemDeErro =
-        errorData?.msg || errorData?.message || "Erro ao buscar bancas";
-      throw new Error(mensagemDeErro);
+      await ErroUtil.processarErroAPI(response, "Erro ao buscar bancas");
     }
 
     const data = await response.json();

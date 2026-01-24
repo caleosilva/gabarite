@@ -11,7 +11,6 @@ interface CadastrarEditarBancaProps {
   banca?: BancaType;
   open: boolean;
   setOpen: (open: boolean) => void;
-  setErroAtivo?: (erro: { titulo: string; msg: string } | null) => void;
 }
 
 export default function CadastrarEditarBanca({
@@ -19,12 +18,10 @@ export default function CadastrarEditarBanca({
   banca,
   open, 
   setOpen,
-  setErroAtivo
 }: CadastrarEditarBancaProps) {
   
   const { form, isSubmitting, isEditMode, idForm, onSubmit } = useBancaForm({
     banca,
-    setErroAtivo,
     open,
     onSuccess: () => {
       setOpen(false);

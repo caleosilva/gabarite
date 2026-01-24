@@ -4,10 +4,11 @@ import {
   AbstractTableController,
   FiltroBusca,
 } from "@/commons/interface/AbstractTableController/AbstractTableController";
+import { ErroUtil } from "@/utils/ErroUtil";
 
 export function useGenericTable<T>(
   controlador: AbstractTableController<T>,
-  forcarRecarga?: boolean | number
+  forcarRecarga?: boolean | number,
 ) {
   const [dados, setDados] = useState<T[]>([]);
   const [estaCarregando, setEstaCarregando] = useState(true);
@@ -16,10 +17,10 @@ export function useGenericTable<T>(
   const [selecaoLinhas, setSelecaoLinhas] = useState<RowSelectionState>({});
   const [textoBuscaDigitado, setTextoBuscaDigitado] = useState("");
   const [campoBuscaSelecionado, setCampoBuscaSelecionado] = useState<string>(
-    controlador.obterCamposPesquisaveis()[0]?.value || ""
+    controlador.obterCamposPesquisaveis()[0]?.value || "",
   );
   const [filtroAtivo, setFiltroAtivo] = useState<FiltroBusca | undefined>(
-    undefined
+    undefined,
   );
   const [erroAtivo, setErroAtivo] = useState<{
     titulo: string;
@@ -32,17 +33,12 @@ export function useGenericTable<T>(
       const resultado = await controlador.fetchData(
         paginacao.pageIndex,
         paginacao.pageSize,
-        filtroAtivo
+        filtroAtivo,
       );
       setDados(resultado.data);
       setTotalRegistros(resultado.total);
     } catch (erro: any) {
-      console.log("erro", erro)
-      setErroAtivo({
-        titulo: "Erro de Carregamento",
-        msg: erro.message || "Não foi possível sincronizar os dados.",
-      });
-      console.error("Erro ao buscar dados:", erro);
+      setErroAtivo(ErroUtil.tratarErro(erro));
     } finally {
       setEstaCarregando(false);
     }
@@ -73,11 +69,11 @@ export function useGenericTable<T>(
 
   const itensSelecionados = useMemo(() => {
     const idsSelecionados = Object.keys(selecaoLinhas).filter(
-      (id) => selecaoLinhas[id]
+      (id) => selecaoLinhas[id],
     );
 
     return dados.filter((item) =>
-      idsSelecionados.includes(controlador.getRowId(item))
+      idsSelecionados.includes(controlador.getRowId(item)),
     );
   }, [selecaoLinhas, dados, controlador]);
 
@@ -85,8 +81,7 @@ export function useGenericTable<T>(
     setSelecaoLinhas({});
   }, [paginacao.pageIndex]);
 
-  useEffect(() => {
-  }, [selecaoLinhas, itensSelecionados]);
+  useEffect(() => {}, [selecaoLinhas, itensSelecionados]);
 
   return {
     dados,

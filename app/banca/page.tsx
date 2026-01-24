@@ -50,7 +50,6 @@ export default function BancasPage() {
         banca={bancaSelecionada}
         update={!!update}
         setUpdate={() => setUpdate((prev) => prev + 1)}
-        setErroAtivo={tableState.setErroAtivo}
       />
 
       <ExcluirBanca

@@ -21,7 +21,7 @@ export const administrador: Permissao[] = [
   },
   {
     recurso: Recurso.BANCA.value,
-    acoes: obterTodasAcoes(),
+    acoes: [],
   },
   {
     recurso: Recurso.QUESTAO.value,

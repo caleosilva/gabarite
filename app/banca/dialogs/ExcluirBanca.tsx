@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import * as React from "react";
 import DialogDefault from "@/commons/componentes/DialogDefault/DialogDefault";
 import { FormFieldDisplay } from "@/commons/componentes/FormFieldDisplay/FormFieldDisplay";
@@ -26,36 +27,45 @@ export default function ExcluirBanca({
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const handleExcluir = async () => {
-    try {
-      setIsSubmitting(true);
+  // 1. Iniciamos o toast de carregamento
+  const toastId = toast.loading("Excluindo banca...");
 
-      const response = await fetch(`/api/banca?id=${banca._id}`, {
-        method: "DELETE",
+  try {
+    setIsSubmitting(true);
+
+    const response = await fetch(`/api/banca?id=${banca._id}`, {
+      method: "DELETE",
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      // 2. Erro vindo da API
+      toast.error(data.titulo || "Erro ao Excluir", {
+        description: data.msg || "Não foi possível excluir a banca.",
+        id: toastId,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        const errorData = {
-          titulo: data.titulo || "Erro ao Excluir",
-          msg: data.msg || "Não foi possível excluir a banca.",
-        };
-        setErroAtivo ? setErroAtivo(errorData) : alert(errorData.msg);
-        return;
-      }
-
-      setOpen(false);
-      onSuccess();
-    } catch (error) {
-      const connError = {
-        titulo: "Erro de Conexão",
-        msg: "Falha ao comunicar com o servidor.",
-      };
-      setErroAtivo ? setErroAtivo(connError) : alert(connError.msg);
-    } finally {
-      setIsSubmitting(false);
+      return;
     }
-  };
+
+    // 3. Sucesso
+    toast.success("Banca removida", {
+      description: "O registro foi excluído permanentemente.",
+      id: toastId,
+    });
+
+    setOpen(false);
+    onSuccess();
+  } catch (error) {
+    // 4. Erro de rede
+    toast.error("Erro de Conexão", {
+      description: "Falha ao comunicar com o servidor.",
+      id: toastId,
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <DialogDefault
