@@ -1,9 +1,9 @@
 "use client";
 
 import DialogDefault from "@/commons/componentes/DialogDefault/DialogDefault";
-import { FormUsuario } from "../commons/FormUsuario"; 
+import { FormUsuario } from "./FormUsuario"; 
 import { UsuarioType } from "@/models/Usuario";
-import { useUsuarioForm } from "../commons/useUsuarioForm";
+import { useCadastrarEditarUsuarioForm } from "./useCadastrarEditarUsuarioForm";
 
 interface CadastrarEditarUsuarioProps {
   update: boolean;
@@ -11,7 +11,6 @@ interface CadastrarEditarUsuarioProps {
   usuario?: UsuarioType;
   open: boolean;
   setOpen: (open: boolean) => void;
-  setErroAtivo?: (erro: { titulo: string; msg: string } | null) => void;
 }
 
 export default function CadastrarEditarUsuario({
@@ -19,12 +18,10 @@ export default function CadastrarEditarUsuario({
   usuario,
   open, 
   setOpen,
-  setErroAtivo
 }: CadastrarEditarUsuarioProps) {
   
-  const { form, isSubmitting, isEditMode, idForm, onSubmit } = useUsuarioForm({
+  const { form, isSubmitting, isEditMode, idForm, onSubmit } = useCadastrarEditarUsuarioForm({
     usuario,
-    setErroAtivo,
     open,
     onSuccess: () => {
       setOpen(false);

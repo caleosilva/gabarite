@@ -3,10 +3,10 @@
 import React, { useState, useMemo } from "react";
 import { GenericTablePage } from "@/commons/interface/GenericTablePage/GenericTablePage";
 import { useGenericTable } from "@/commons/interface/useGenericTable/useGenericTable";
-import { UsuarioController } from "./UsuarioController";
+import { UsuarioController } from "./UsuarioTableController";
 import { UsuarioType } from "@/models/Usuario";
-import CadastrarEditarUsuario from "./dialogs/CadastrarEditarUsuario";
-import ExcluirUsuario from "./dialogs/ExcluirUsuario";
+import CadastrarEditarUsuario from "./cadastrar-editar/CadastrarEditarUsuario";
+import ExcluirUsuario from "./excluir/ExcluirUsuario";
 
 export default function UsuariosPage() {
   const [update, setUpdate] = useState(0);
@@ -49,7 +49,6 @@ export default function UsuariosPage() {
         usuario={usuarioSelecionado}
         update={!!update}
         setUpdate={() => setUpdate((prev) => prev + 1)}
-        setErroAtivo={tableState.setErroAtivo}
       />
 
       <ExcluirUsuario

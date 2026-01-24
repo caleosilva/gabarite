@@ -1,27 +1,37 @@
+"use client";
+
+import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import { createUsuarioFormSchema, UsuarioFormInput, UsuarioFormOutput } from "./formSchema";
+import {
+  createCadastrarEditarUsuarioFormSchema,
+  UsuarioFormInput,
+  UsuarioFormOutput,
+} from "./form-usuario-schema";
 import { UsuarioType } from "@/models/Usuario";
 
-interface UseUsuarioFormProps {
+interface useCadastrarEditarUsuarioFormProps {
   usuario?: UsuarioType;
   onSuccess: () => void;
-  setErroAtivo?: (erro: { titulo: string; msg: string } | null) => void;
   open?: boolean;
 }
 
-export function useUsuarioForm({ usuario, onSuccess, setErroAtivo, open }: UseUsuarioFormProps) {
+export function useCadastrarEditarUsuarioForm({
+  usuario,
+  onSuccess,
+  open,
+}: useCadastrarEditarUsuarioFormProps) {
   const { data: session } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const isEditMode = !!usuario;
   const idForm = isEditMode ? "formEditarUsuario" : "formCadastrarUsuario";
 
   const form = useForm<UsuarioFormInput>({
-    resolver: zodResolver(createUsuarioFormSchema(usuario)),
+    resolver: zodResolver(createCadastrarEditarUsuarioFormSchema(usuario)),
     defaultValues: {
       nome: usuario?.nome ?? "",
       email: usuario?.email ?? "",
@@ -30,15 +40,19 @@ export function useUsuarioForm({ usuario, onSuccess, setErroAtivo, open }: UseUs
       _id: usuario?._id?.toString() ?? "",
     },
   });
-  
+
   useEffect(() => {
     const buscarDadosUsuario = async () => {
       if (open && isEditMode && usuario?._id) {
         try {
           setIsLoading(true);
           const response = await fetch(`/api/usuario?id=${usuario._id}`);
-          const data = await response.json();
 
+          if (!response.ok) {
+            throw new Error("Não foi possível carregar os dados.");
+          }
+
+          const data = await response.json();
           if (response.ok && data) {
             form.reset({
               nome: data.nome,
@@ -49,7 +63,10 @@ export function useUsuarioForm({ usuario, onSuccess, setErroAtivo, open }: UseUs
             });
           }
         } catch (error) {
-          console.error("Erro ao carregar dados do usuário:", error);
+          toast.error("Erro ao carregar dados", {
+            description:
+              "Não conseguimos buscar as informações atualizadas do usuário.",
+          });
         } finally {
           setIsLoading(false);
         }
@@ -69,11 +86,17 @@ export function useUsuarioForm({ usuario, onSuccess, setErroAtivo, open }: UseUs
   }, [open, isEditMode, usuario?._id, form]);
 
   const onSubmit = async (values: UsuarioFormOutput) => {
+    const toastId = toast.loading(
+      isEditMode ? "Atualizando usuário..." : "Criando usuário...",
+    );
+
     try {
       setIsSubmitting(true);
       const isPublicRegister = !session;
-      let url = isPublicRegister ? "/api/registrarUsuarioLogin" : "/api/usuario";
-      
+      let url = isPublicRegister
+        ? "/api/registrarUsuarioLogin"
+        : "/api/usuario";
+
       if (isEditMode && usuario?._id) url += `?id=${usuario._id}`;
 
       const response = await fetch(url, {
@@ -85,16 +108,28 @@ export function useUsuarioForm({ usuario, onSuccess, setErroAtivo, open }: UseUs
       const data = await response.json();
 
       if (!response.ok) {
-        const errorData = { titulo: data.titulo || "Atenção", msg: data.msg || "Erro ao salvar." };
-        setErroAtivo ? setErroAtivo(errorData) : alert(`${errorData.titulo}: ${errorData.msg}`);
+        toast.error(data.titulo || "Atenção", {
+          description: data.msg || "Erro ao salvar os dados.",
+          id: toastId,
+        });
         return;
       }
+
+      toast.success(
+        isEditMode ? "Usuário atualizado!" : "Usuário criado com sucesso!",
+        {
+          description: "As alterações já estão disponíveis no sistema.",
+          id: toastId,
+        },
+      );
 
       form.reset();
       onSuccess();
     } catch (error) {
-      const connError = { titulo: "Erro de Conexão", msg: "Falha ao comunicar com o servidor." };
-      setErroAtivo ? setErroAtivo(connError) : alert(connError.msg);
+      toast.error("Erro de Conexão", {
+        description: "Não foi possível comunicar com o servidor.",
+        id: toastId,
+      });
     } finally {
       setIsSubmitting(false);
     }

@@ -1,7 +1,7 @@
 import * as z from "zod";
 import { UsuarioType } from "@/models/Usuario";
 
-export const createUsuarioFormSchema = (usuario?: UsuarioType) => {
+export const createCadastrarEditarUsuarioFormSchema = (usuario?: UsuarioType) => {
   return z.object({
     // Nome: Obrigatório, remove espaços extras
     nome: z
@@ -38,7 +38,7 @@ export const createUsuarioFormSchema = (usuario?: UsuarioType) => {
 };
 
 // O tipo dos dados que entram no formulário (o que o React Hook Form gerencia)
-export type UsuarioFormInput = z.input<ReturnType<typeof createUsuarioFormSchema>>;
+export type UsuarioFormInput = z.input<ReturnType<typeof createCadastrarEditarUsuarioFormSchema>>;
 
 // O tipo dos dados que saem do formulário (após os transforms, prontos para a API)
-export type UsuarioFormOutput = z.output<ReturnType<typeof createUsuarioFormSchema>>;
+export type UsuarioFormOutput = z.output<ReturnType<typeof createCadastrarEditarUsuarioFormSchema>>;

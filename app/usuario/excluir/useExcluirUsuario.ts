@@ -1,51 +1,51 @@
 // hooks/useExcluirBanca.ts
 import { useState } from "react";
 import { toast } from "sonner";
-import { BancaType } from "@/models/Banca";
+import { UsuarioType } from "@/models/Usuario";
 
-interface UseExcluirBancaProps {
-  banca: BancaType | undefined;
+interface useExcluirUsuarioProps {
+  usuario: UsuarioType | undefined;
   onSuccess: () => void;
   setOpen: (open: boolean) => void;
 }
 
-export function useExcluirBanca({
-  banca,
+export function useExcluirUsuario({
+  usuario,
   onSuccess,
   setOpen,
-}: UseExcluirBancaProps) {
+}: useExcluirUsuarioProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleExcluir = async () => {
-    if (!banca) return;
+    if (!usuario) return;
 
-    const toastId = toast.loading("Excluindo banca...");
+    const toastId = toast.loading("Excluindo usuário...");
 
     try {
       setIsSubmitting(true);
 
-      const response = await fetch(`/api/banca?id=${banca._id}`, {
+      const response = await fetch(`/api/usuario?id=${usuario._id}`, {
         method: "DELETE",
       });
-
       const data = await response.json();
-
+      
       if (!response.ok) {
         toast.error(data.titulo || "Erro ao Excluir", {
-          description: data.msg || "Não foi possível excluir a banca.",
+          description: data.msg || "Não foi possível excluir o usuário.",
           id: toastId,
         });
         return;
       }
 
-      toast.success("Banca removida", {
-        description: "O registro foi excluído.",
+
+      toast.success("Usuário removido", {
+        description: "O registro foi excluído..",
         id: toastId,
       });
 
       setOpen(false);
       onSuccess();
-    } catch (error: any) {
+    } catch (error) {
       toast.error("Erro de Conexão", {
         description: "Falha ao comunicar com o servidor.",
         id: toastId,

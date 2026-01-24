@@ -40,7 +40,7 @@ export abstract class BaseAction<TInput, TOutput> {
     );
 
     if (!autorizado) {
-      throw new AppError(HttpCode.UNAUTHORIZED, `Acesso negado: ${this.acao} -> ${this.recurso}`);
+      throw new AppError(HttpCode.UNAUTHORIZED, `Seu usuário não tem permissão para ${this.acao} ${this.recurso}`);
     }
   }
 

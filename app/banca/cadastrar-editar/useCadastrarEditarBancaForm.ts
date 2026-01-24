@@ -1,3 +1,5 @@
+"use client"
+
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";

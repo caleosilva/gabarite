@@ -80,14 +80,7 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
     const response = await fetch(`/api/usuario?${params.toString()}`);
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => null);
-
-      // 2. Extrai a mensagem específica ou define a genérica
-      const mensagemDeErro =
-        errorData?.msg || errorData?.message || "Erro ao buscar usuários";
-
-      // 3. Lança o erro com a mensagem da API (ou a genérica como fallback)
-      throw new Error(mensagemDeErro);
+      await super.tratarErro(response, "Erro ao buscar usuários");
     }
 
     const data = await response.json();

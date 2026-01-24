@@ -14,7 +14,7 @@ import {
   CardTitle 
 } from "@/components/ui/card";
 
-import CadastrarEditarUsuario from "@/app/usuario/dialogs/CadastrarEditarUsuario";
+import CadastrarEditarUsuario from "@/app/usuario/cadastrar-editar/CadastrarEditarUsuario";
 import { FormLogin } from "./commons/FormLogin";
 import { useLoginForm } from "./commons/useLoginForm";
 
