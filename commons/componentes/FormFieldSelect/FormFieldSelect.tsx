@@ -88,7 +88,7 @@ export default function FormFieldSelect<TFormValues extends FieldValues>({
             defaultValue={field.value} 
           >
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 {/* O SelectValue exibe o label da opção selecionada ou o placeholder */}
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>

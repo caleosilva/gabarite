@@ -9,8 +9,8 @@ import FormFieldBasic, {
 
 import FormFieldSelect from "@/commons/componentes/FormFieldSelect/FormFieldSelect"
 import {getOpcoesCargo} from "@/commons/auth/enum/cargo";
-
 import { UsuarioType } from "@/models/Usuario";
+import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente/useAuthComponente";
 
 interface FormUsuarioProps {
   form: UseFormReturn<any>;
@@ -26,6 +26,8 @@ export function FormUsuario({
   idForm,
   isEditMode = false,
 }: FormUsuarioProps) {
+  const { isAuthenticated } = useAuthComponente();
+
   return (
     <Form {...form}>
       <form
@@ -56,15 +58,19 @@ export function FormUsuario({
           obrigatorio
         />
 
-        <FormFieldSelect
-          form={form}
-          name="cargo"
-          label="Perfil de Acesso"
-          placeholder="Selecione o cargo..."
-          options={getOpcoesCargo()}
-          obrigatorio
-          descricao="Define as permissões do usuário no sistema."
-        />
+        {/* Apenas exibe o select de cargo se estiver autenticado */}
+        {isAuthenticated && (
+          <FormFieldSelect
+            form={form}
+            name="cargo"
+            label="Perfil de Acesso"
+            placeholder="Selecione o cargo..."
+            options={getOpcoesCargo()}
+            obrigatorio
+            descricao="Define as permissões do usuário no sistema."
+            className="w-full"
+          />
+        )}
 
         {!isEditMode && (
           <>

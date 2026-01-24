@@ -108,7 +108,7 @@ export default function DialogDefault({
 
     // variant === "form"
     return (
-      <DialogFooter className="gap-2 sm:gap-0">
+      <DialogFooter className="gap-4">
         <DialogClose asChild>
           <Button
             type="button"
@@ -142,8 +142,7 @@ export default function DialogDefault({
       <DialogContent
         className="sm:max-w-[825px] flex flex-col max-h-[90vh]"
         onInteractOutside={(event) => {
-          // Impede fechar clicando fora se estiver salvando (opcional, boa UX)
-          if (isSubmitting) event.preventDefault();
+          event.preventDefault();
         }}
       >
         <DialogHeader>
