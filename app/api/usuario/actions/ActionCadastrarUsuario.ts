@@ -3,10 +3,12 @@ import { BaseActionCadastrar } from "@/commons/servidor/BaseActionCadastrar/Base
 import { AppError, HttpCode } from "@/commons/servidor/AppError/AppError";
 import { UsuarioType } from "@/models/Usuario";
 import {CryptoUtils} from "@/utils/CryptoUtils"
+import { Acao } from "@/commons/auth/enum/acao";
+import { Recurso } from "@/commons/auth/enum/recurso";
 
 export class CadastrarUsuarioAction extends BaseActionCadastrar<UsuarioType> {
   constructor(model: Model<UsuarioType>) {
-    super(model);
+    super(model, Recurso.USUARIO.value);
   }
 
   protected async validate(data: Partial<UsuarioType>): Promise<void> {

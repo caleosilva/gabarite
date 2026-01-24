@@ -1,12 +1,12 @@
 import { Model } from "mongoose";
 import { BaseActionCadastrar } from "@/commons/servidor/BaseActionCadastrar/BaseActionCadastrar";
 import { AppError, HttpCode } from "@/commons/servidor/AppError/AppError";
-import { Banca, BancaType} from "@/models/Banca";
-import {CryptoUtils} from "@/utils/CryptoUtils"
+import { BancaType} from "@/models/Banca";
+import { Recurso } from "@/commons/auth/enum/recurso";
 
 export class CadastrarBancaAction extends BaseActionCadastrar<BancaType> {
   constructor(model: Model<BancaType>) {
-    super(model);
+    super(model, Recurso.BANCA.value);
   }
 
   protected async validate(data: Partial<BancaType>): Promise<void> {

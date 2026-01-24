@@ -1,10 +1,18 @@
 import { Model } from "mongoose";
 import { BaseAction } from "../BaseAction/BaseAction";
 import { AppError, HttpCode } from "../AppError/AppError";
+import { Acao } from "@/commons/auth/enum/acao";
 
 export class BaseActionExcluir<T> extends BaseAction<string, T> {
-  constructor(protected model: Model<T>) {
+  protected recurso: string;
+  protected acao = Acao.EXCLUIR.value;
+
+  constructor(
+    protected model: Model<T>,
+    recurso: string,
+  ) {
     super();
+    this.recurso = recurso;
   }
 
   protected async validate(id: string): Promise<void> {

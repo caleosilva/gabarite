@@ -1,6 +1,7 @@
 import { Model } from "mongoose";
 import { BaseAction } from "../BaseAction/BaseAction";
 import { AppError, HttpCode } from "../AppError/AppError";
+import { Acao } from "@/commons/auth/enum/acao";
 
 export interface GoToPageInput {
   page: number;
@@ -10,11 +11,16 @@ export interface GoToPageInput {
 }
 
 export class BaseActionGoToPage<T> extends BaseAction<GoToPageInput, { data: T[]; total: number }> {
+  protected recurso: string;
+    protected acao = Acao.LISTAR.value;
+
   constructor(
     protected model: Model<T>, 
-    protected selectFields: string | Partial<Record<keyof T, number | boolean>> = "" 
+    recurso: string,
+    protected selectFields: string | Partial<Record<keyof T, number | boolean>> = "",
   ) {
     super();
+    this.recurso = recurso;
   }
 
   protected async validate(input: GoToPageInput): Promise<void> {

@@ -6,13 +6,13 @@ import { BaseActionCadastrar } from "@/commons/servidor/BaseActionCadastrar/Base
 import { BaseActionEditar } from "@/commons/servidor/BaseActionEditar/BaseActionEditar";
 import { BaseActionExcluir } from "@/commons/servidor/BaseActionExcluir/BaseActionExcluir";
 import { BaseActionVisualizar } from "@/commons/servidor/BaseActionVisualizar/BaseActionVisualizar";
-
+import { Recurso } from "@/commons/auth/enum/recurso";
 import { CadastrarBancaAction } from "./actions/CadastrarBancaAction";
 import { EditarBancaAction } from "./actions/EditarBancaAction";
 
-
-
 export class BancaService extends BaseService<BancaType> {
+    protected recurso = Recurso.BANCA.value;
+  
 
   // Utilizado no goToPage
   private readonly projecaoListagem: Partial<Record<keyof BancaType, number>> = {
@@ -20,7 +20,7 @@ export class BancaService extends BaseService<BancaType> {
   };
   
   async goToPage(params: GoToPageInput) {
-    return new BaseActionGoToPage(Banca, this.projecaoListagem).run(params);
+    return new BaseActionGoToPage(Banca, this.recurso, this.projecaoListagem).run(params);
   }
 
   async cadastrar(data: BancaType) {
@@ -32,10 +32,10 @@ export class BancaService extends BaseService<BancaType> {
   }
 
   async excluir(id: string) {
-    return new BaseActionExcluir(Banca).run(id);
+    return new BaseActionExcluir(Banca, this.recurso).run(id);
   }
 
   async visualizar(id: string) {
-   return new BaseActionVisualizar(Banca).run(id);
+   return new BaseActionVisualizar(Banca, this.recurso).run(id);
   }
 }

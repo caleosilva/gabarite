@@ -1,6 +1,7 @@
 import { Model } from "mongoose";
 import { BaseAction } from "../BaseAction/BaseAction";
 import { AppError, HttpCode } from "../AppError/AppError";
+import { Acao } from "@/commons/auth/enum/acao";
 
 interface EditarInput<T> {
   id: string;
@@ -8,8 +9,15 @@ interface EditarInput<T> {
 }
 
 export class BaseActionEditar<T> extends BaseAction<EditarInput<T>, T> {
-  constructor(protected model: Model<T>) {
+  protected recurso: string;
+  protected acao = Acao.EDITAR.value;
+
+  constructor(
+    protected model: Model<T>,
+    recurso: string,
+  ) {
     super();
+    this.recurso = recurso;
   }
 
   protected async validate(input: EditarInput<T>): Promise<void> {

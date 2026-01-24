@@ -3,6 +3,7 @@ export const Acao = {
   EDITAR:         { label: 'Editar',          value: 'editar' },
   EXCLUIR:        { label: 'Excluir',         value: 'excluir' },
   VISUALIZAR:     { label: 'Visualizar',      value: 'visualizar' },
+  LISTAR:         { label: 'Listar',          value: 'listar' },
   ACESSAR_PAGINA: { label: 'Acessar Página',  value: 'acessar_pagina' },
 } as const;
 
