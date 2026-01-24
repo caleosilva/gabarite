@@ -3,7 +3,7 @@
 import { Navbar } from "./NavBar/NavBar" 
 import UserHeader from "./UserHeader/UserHeader"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useAuthComponente } from "@/commons/autenticador/useAuthComponente/useAuthComponente"
+import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente/useAuthComponente"
 
 export function Header() {
   const {isAuthenticated, isLoading, user} = useAuthComponente();
@@ -13,7 +13,7 @@ export function Header() {
   if (!isAuthenticated) return;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         
         {/* Lado Esquerdo: Saudação */}

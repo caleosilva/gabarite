@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { possuiPermissao } from "@/commons/auth/autenticador";
 import { authOptions } from "@/lib/auth";
+import { HttpCode, AppError } from "@/commons/servidor/AppError/AppError";
 
 export abstract class BaseAction<TInput, TOutput> {
 
@@ -20,13 +21,13 @@ export abstract class BaseAction<TInput, TOutput> {
 
   protected async authorize(): Promise<void> {
     if (!this.recurso || !this.acao) {
-      throw new Error("Configuração de segurança incompleta (recurso/ação não definidos).");
+      throw new AppError(HttpCode.INTERNAL_SERVER_ERROR, "Configuração de segurança incompleta (recurso/ação não definidos).");;
     }
 
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      throw new Error("Não autenticado");
+      throw new AppError(HttpCode.FORBIDDEN, "Não autenticado.");
     }
 
     const autorizado = possuiPermissao(
@@ -36,7 +37,7 @@ export abstract class BaseAction<TInput, TOutput> {
     );
 
     if (!autorizado) {
-      throw new Error(`Acesso negado: ${this.recurso} -> ${this.acao}`);
+      throw new AppError(HttpCode.UNAUTHORIZED, `Acesso negado: ${this.acao} -> ${this.recurso}`);
     }
   }
 

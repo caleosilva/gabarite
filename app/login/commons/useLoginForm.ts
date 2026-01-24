@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { loginSchema, LoginValues } from "./loginSchema";
-import { useAuthComponente } from "@/commons/autenticador/useAuthComponente/useAuthComponente"
+import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente/useAuthComponente"
 import {CryptoUtils} from "@/utils/CryptoUtils"
 
 export function useLoginForm() {

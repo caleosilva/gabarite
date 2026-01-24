@@ -1,18 +1,12 @@
 import connectToDatabase from "@/utils/db";
 import { AppError, HttpCode } from "../AppError/AppError";
 import { NextResponse } from "next/server";
-import { Autenticador } from "../../autenticador/Autenticador/Autenticador";
-
 
 export abstract class BaseRoute {
 
   protected async handle(req: Request, method: string, action: Function) {
     try {
       await connectToDatabase();
-      
-      // Passar o req e o method para o autenticador?
-      const autorizado = await Autenticador.validar();
-      if (!autorizado) throw new AppError(HttpCode.FORBIDDEN, "Não autorizado");
 
       const result = await action();
       return NextResponse.json(result);

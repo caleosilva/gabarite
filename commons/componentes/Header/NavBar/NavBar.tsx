@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { LayoutDashboard, BookOpen, Settings2, Users } from "lucide-react";
+import { useNavBar } from "./useNavBar";
 
 import {
   NavigationMenu,
@@ -15,98 +15,59 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
-const auxiliares: { title: string; href: string; description: string }[] = [
-  {
-    title: "Concurso",
-    href: "/concurso",
-    description: "Gerencie os editais e certames disponíveis.",
-  },
-  {
-    title: "Órgão",
-    href: "/orgao",
-    description: "Cadastro de instituições e órgãos públicos.",
-  },
-  {
-    title: "Banca",
-    href: "/banca",
-    description: "Organizadoras de concursos (Ex: FGV, Cebraspe).",
-  },
-  {
-    title: "Disciplina",
-    href: "/disciplina",
-    description: "Matérias e conteúdos programáticos.",
-  },
-  {
-    title: "Questão",
-    href: "/questao",
-    description: "Banco de questões para simulados e treinos.",
-  },
-];
-
 export function Navbar() {
+  const { menus, isLoading } = useNavBar();
+
+  if (isLoading) {
+    return (
+      <div className="h-14 w-full border-b bg-background/50 animate-pulse" />
+    );
+  }
+
   return (
     <div className="flex w-full justify-center border-b bg-background p-2">
       <NavigationMenu>
         <NavigationMenuList className="gap-1 items-center">
-          {/* 0. Dashboard */}
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
-              <Link href="/dashboard" className="flex items-center gap-2">
-                <LayoutDashboard className="h-4 w-4" />
-                <span>Dashboard</span>
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+          {menus.map((item) => {
+            if (item.children && item.children.length > 0) {
+              return (
+                <NavigationMenuItem key={item.title}>
+                  <NavigationMenuTrigger className="h-9 px-4 py-2 gap-2">
+                    <span>{item.title}</span>
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                      {item.children.map((child) => (
+                        <ListItem
+                          key={child.title}
+                          title={child.title}
+                          href={child.href || "#"}
+                        >
+                          {child.description}
+                        </ListItem>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              );
+            }
 
-          {/* 1. Estudo */}
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
-              <Link href="/estudo" className="flex items-center gap-2">
-                <BookOpen className="h-4 w-4" />
-                <span>Estudo</span>
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-
-          {/* 2. Auxiliares (Dropdown) */}
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="h-9 px-4 py-2 gap-2">
-              <Settings2 className="h-4 w-4" />
-              <span>Auxiliares</span>
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] lg:right-0">
-                {auxiliares.map((item) => (
-                  <ListItem
-                    key={item.title}
-                    title={item.title}
-                    href={item.href}
+            return (
+              <NavigationMenuItem key={item.title}>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link
+                    href={item.href || "#"}
+                    className="flex items-center gap-2"
                   >
-                    {item.description}
-                  </ListItem>
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-
-          {/* 3. Usuário */}
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
-              <Link href="/usuario" className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                <span>Usuários</span>
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+                    <span>{item.title}</span>
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            );
+          })}
         </NavigationMenuList>
       </NavigationMenu>
     </div>
@@ -127,7 +88,7 @@ function ListItem({
           href={href}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
           )}
           {...props}
         >
