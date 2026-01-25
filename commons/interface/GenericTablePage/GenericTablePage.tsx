@@ -42,7 +42,7 @@ export function GenericTablePage<T>({
 }) {
   const botoesPadrao = useMemo(
     () => controlador.getFinalStandardConfigs(),
-    [controlador]
+    [controlador],
   );
 
   // Colunas memorizadas com checkbox
@@ -64,10 +64,13 @@ export function GenericTablePage<T>({
           />
         ),
         size: 40,
+        minSize: 40,
+        maxSize: 40,
+        enableResizing: false, // Desabilita redimensionamento
       },
       ...controlador.obterColunas(),
     ],
-    [controlador]
+    [controlador],
   );
 
   return (
@@ -152,7 +155,7 @@ export function GenericTablePage<T>({
         dados={state.dados}
         estaCarregando={state.estaCarregando}
         totalDePaginas={Math.ceil(
-          state.totalRegistros / state.paginacao.pageSize
+          state.totalRegistros / state.paginacao.pageSize,
         )}
         paginacao={state.paginacao}
         aoMudarPaginacao={state.setPaginacao}

@@ -7,7 +7,6 @@ const usuarioSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true, // Garante que não existam emails duplicados
       lowercase: true,
       trim: true,
     },

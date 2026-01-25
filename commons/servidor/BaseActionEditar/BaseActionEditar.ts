@@ -25,6 +25,7 @@ export class BaseActionEditar<T> extends BaseAction<EditarInput<T>, T> {
   }
 
   protected async save(input: EditarInput<T>): Promise<T> {
+    console.log("input: ", input);
     const registro = await this.model.findByIdAndUpdate(
       input.id,
       { $set: input.data },

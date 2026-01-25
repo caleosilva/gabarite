@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const bancaSchema = new mongoose.Schema(
   {
-    nome: { type: String, required: true, unique: true, trim: true },
+    nome: { type: String, required: true, trim: true },
     excluido: { type: Boolean, default: false, required: true },
   },
   {

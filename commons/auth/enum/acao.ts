@@ -26,7 +26,7 @@ export const obterAcoesCRUD = (): AcaoType['value'][] => {
 };
 
 export const obterAcoesLeitura = (): AcaoType['value'][] => {
-  return [Acao.VISUALIZAR.value, Acao.ACESSAR_PAGINA.value];
+  return [Acao.LISTAR.value, Acao.ACESSAR_PAGINA.value];
 };
 
 export const obterTodasAcoes = (): AcaoType['value'][] => {
