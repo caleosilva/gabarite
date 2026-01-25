@@ -4,20 +4,14 @@ import {
   ResultadoPaginado,
   FiltroBusca,
   ConstrutorAcoesPadrao,
+  TableActions
 } from "@/commons/interface/AbstractTableController/AbstractTableController";
 import { BancaType } from "@/models/Banca";
 
 export class BancaTableController extends AbstractTableController<BancaType> {
-  constructor(
-    private actions: {
-      onAdd: () => void;
-      onEdit: (item: BancaType) => void;
-      onView: (item: BancaType) => void;
-      onDelete: (item: BancaType) => void;
-    },
-  ) {
-    super();
-  }
+  constructor(actions: TableActions<BancaType>) {
+      super(actions); 
+    }
 
   // Define as colunas que aparecerão na DataTable
   obterColunas(): ColumnDef<BancaType>[] {
@@ -65,21 +59,9 @@ export class BancaTableController extends AbstractTableController<BancaType> {
 
   // Personalização dos botões
   configurarAcoesPadrao(builder: ConstrutorAcoesPadrao): void {
-    builder.adicionar.definirRotulo("Nova Banca").definirVariante("default");
-    builder.editar.definirRotulo("Editar Banca").definirVariante("outline");
-  }
-
-  // Mapeamento das ações
-  aoClicarAdicionar() {
-    this.actions.onAdd();
-  }
-  aoClicarEditar(item: BancaType) {
-    this.actions.onEdit(item);
-  }
-  aoClicarVisualizar(item: BancaType) {
-    this.actions.onView(item);
-  }
-  aoClicarExcluir(item: BancaType) {
-    this.actions.onDelete(item);
+    builder.adicionar.removerRotulo();
+    builder.visualizar.ocultar();
+    builder.editar.removerRotulo();
+    builder.excluir.removerRotulo();
   }
 }

@@ -1,4 +1,4 @@
-export class DateUtils {
+export class DateUtil {
   /**
    * Formata uma data para o padrão DD/MM/YYYY.
    * Corrige o fuso horário para exibir a data correta independentemente do local do usuário.

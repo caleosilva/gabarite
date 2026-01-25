@@ -5,7 +5,7 @@ import { Acao } from "@/commons/auth/enum/acao";
 
 export class BaseActionVisualizar<T> extends BaseAction<string, T> {
   protected recurso: string;
-  protected acao = Acao.EDITAR.value;
+  protected acao = Acao.VISUALIZAR.value;
 
   constructor(
     protected model: Model<T>,

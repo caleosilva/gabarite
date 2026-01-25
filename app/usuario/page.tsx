@@ -5,13 +5,19 @@ import { GenericTablePage } from "@/commons/interface/GenericTablePage/GenericTa
 import { useGenericTable } from "@/commons/interface/useGenericTable/useGenericTable";
 import { UsuarioController } from "./UsuarioTableController";
 import { UsuarioType } from "@/models/Usuario";
+
 import CadastrarEditarUsuario from "./cadastrar-editar/CadastrarEditarUsuario";
 import ExcluirUsuario from "./excluir/ExcluirUsuario";
+import VisualizarUsuario from "./visualizar/VisualizarUsuario";
+
 
 export default function UsuariosPage() {
   const [update, setUpdate] = useState(0);
+
   const [openCadastro, setOpenCadastro] = useState(false);
   const [openExcluir, setOpenExcluir] = useState(false);
+  const [openVisualizar, setOpenVisualizar] = useState(false);
+
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<
     UsuarioType | undefined
   >();
@@ -25,7 +31,10 @@ export default function UsuariosPage() {
       setUsuarioSelecionado(item);
       setOpenCadastro(true);
     },
-    onView: (item: UsuarioType) => console.log("Visualizar:", item),
+    onView: (item: UsuarioType) => {
+      setUsuarioSelecionado(item);
+      setOpenVisualizar(true);
+    },
     onDelete: (item: UsuarioType) => {
       setUsuarioSelecionado(item);
       setOpenExcluir(true);
@@ -52,6 +61,12 @@ export default function UsuariosPage() {
           usuario={usuarioSelecionado}
           onSuccess={() => setUpdate((prev) => prev + 1)}
           setErroAtivo={tableState.setErroAtivo}
+        />
+
+        <VisualizarUsuario
+          open={openVisualizar}
+          setOpen={setOpenVisualizar}
+          usuario={usuarioSelecionado}
         />
       </>
     );

@@ -10,9 +10,7 @@ class UsuarioRoute extends BaseRoute {
   public async GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
-
-    // console.log("searchParams: ", searchParams)
-
+    
     return this.handle(req, "GET", async () => {
       // Se houver um ID, chama visualizar, caso contrário, listagem paginada
       if (id) {
