@@ -9,10 +9,17 @@ import {
 import { UsuarioType } from "@/models/Usuario";
 import { Badge } from "@/components/ui/badge";
 import { getCargoByValue, CargoType } from "@/commons/auth/config/cargo";
-
+import { RecursoType } from "@/commons/auth/config/recurso";
+import {possuiPermissao} from "@/commons/auth/possuiPermissao";
+import { Acao } from "@/commons/auth/config/acao";
 
 export class UsuarioController extends AbstractTableController<UsuarioType> {
-  constructor(actions: TableActions<UsuarioType>) {
+  
+  constructor(
+    private cargo: CargoType['value'],
+    private recurso: RecursoType['value'],
+    actions: TableActions<UsuarioType>
+  ) {
     super(actions); 
   }
 
@@ -84,9 +91,9 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
 
   // Personalização dos botões
   configurarAcoesPadrao(builder: ConstrutorAcoesPadrao): void {
-    builder.adicionar.setRotulo(null);
-    builder.editar.setRotulo(null);
-    builder.excluir.setRotulo(null);
-    builder.visualizar.setRotulo(null);
+    builder.adicionar.setRotulo(null).setVisivel(possuiPermissao(this.cargo, this.recurso, Acao.CADASTRAR.value));
+    builder.editar.setRotulo(null).setVisivel(possuiPermissao(this.cargo, this.recurso, Acao.EDITAR.value));
+    builder.excluir.setRotulo(null).setVisivel(possuiPermissao(this.cargo, this.recurso, Acao.EXCLUIR.value));
+    builder.visualizar.setRotulo(null).setVisivel(possuiPermissao(this.cargo, this.recurso, Acao.VISUALIZAR.value));
   }
 }

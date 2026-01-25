@@ -1,7 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ReactNode } from "react";
 import { Plus, Pencil, Eye, Trash2 } from "lucide-react";
-import {possuiPermissao} from "@/commons/auth/possuiPermissao";
+
+import { CargoType } from "@/commons/auth/config/cargo";
+import { RecursoType } from "@/commons/auth/config/recurso";
+
 
 import {
   ConstrutorBotao,
@@ -65,7 +68,10 @@ export interface BotaoAcao {
 // --- Classe Base do Controlador ---
 
 export abstract class AbstractTableController<T> {
-  constructor(protected actions?: TableActions<T>) {}
+  constructor(
+    protected actions?: TableActions<T>, 
+  ) {}
+
 
   // 1. Definições Obrigatórias
   // Retorna o ID único da entidade (obrigatório para seleção e ações)

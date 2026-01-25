@@ -9,11 +9,14 @@ import { UsuarioType } from "@/models/Usuario";
 import CadastrarEditarUsuario from "./cadastrar-editar/CadastrarEditarUsuario";
 import ExcluirUsuario from "./excluir/ExcluirUsuario";
 import VisualizarUsuario from "./visualizar/VisualizarUsuario";
+import {useAuthClient} from "@/commons/auth/hooks/useAuthClient"
+import { Recurso } from "@/commons/auth/config/recurso";
 
 
 export default function UsuariosPage() {
-  const [update, setUpdate] = useState(0);
+  const {cargo} = useAuthClient();
 
+  const [update, setUpdate] = useState(0);
   const [openCadastro, setOpenCadastro] = useState(false);
   const [openExcluir, setOpenExcluir] = useState(false);
   const [openVisualizar, setOpenVisualizar] = useState(false);
@@ -41,7 +44,7 @@ export default function UsuariosPage() {
     },
   };
 
-  const controlador = useMemo(() => new UsuarioController(handlers), []);
+  const controlador = useMemo(() => new UsuarioController(cargo, Recurso.USUARIO.value, handlers), []);
   const tableState = useGenericTable(controlador, update);
 
   function getDialogAcoes() {
