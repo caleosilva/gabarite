@@ -3,7 +3,7 @@
 import { Navbar } from "./NavBar/NavBar" 
 import UserHeader from "./UserHeader/UserHeader"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente/useAuthComponente"
+import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente"
 
 export function Header() {
   const {isAuthenticated, isLoading, user} = useAuthComponente();

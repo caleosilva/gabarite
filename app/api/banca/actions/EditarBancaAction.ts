@@ -2,7 +2,7 @@ import { Model } from "mongoose";
 import { BaseActionEditar } from "@/commons/servidor/BaseActionEditar/BaseActionEditar"; // Importando a sua base de edição
 import { AppError, HttpCode } from "@/commons/servidor/AppError/AppError";
 import { BancaType } from "@/models/Banca";
-import { Recurso } from "@/commons/auth/enum/recurso";
+import { Recurso } from "@/commons/auth/config/recurso";
 
 export class EditarBancaAction extends BaseActionEditar<BancaType> {
   constructor(model: Model<BancaType>) {

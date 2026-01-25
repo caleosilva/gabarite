@@ -6,7 +6,7 @@ import { BaseActionCadastrar } from "@/commons/servidor/BaseActionCadastrar/Base
 import { BaseActionEditar } from "@/commons/servidor/BaseActionEditar/BaseActionEditar";
 import { BaseActionExcluir } from "@/commons/servidor/BaseActionExcluir/BaseActionExcluir";
 import { BaseActionVisualizar } from "@/commons/servidor/BaseActionVisualizar/BaseActionVisualizar";
-import { Recurso } from "@/commons/auth/enum/recurso";
+import { Recurso } from "@/commons/auth/config/recurso";
 import { CadastrarBancaAction } from "./actions/CadastrarBancaAction";
 import { EditarBancaAction } from "./actions/EditarBancaAction";
 

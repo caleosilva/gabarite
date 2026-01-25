@@ -1,24 +1,19 @@
-import { Cargo } from "./enum/cargo";
+import { Cargo } from "./config/cargo";
 import { administrador } from "./permissoes/administrador";
 import { estudante } from "./permissoes/estudante";
 import { Permissao } from "./types";
-
 
 export const CONFIGURACAO_CARGOS: Record<string, Permissao[]> = {
   [Cargo.ADMINISTRADOR.value]: administrador,
   [Cargo.ESTUDANTE.value]: estudante,
 };
 
-
 export function possuiPermissao(
   cargo: string,
   recurso: string | undefined,
   acao: string
 ): boolean {
-
-
-  
-  if (!recurso) return false; // TRHOW ERROR?
+  if (!recurso) return false;
 
   const permissoes = CONFIGURACAO_CARGOS[cargo];
   if (!permissoes) return false;

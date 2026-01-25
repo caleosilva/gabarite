@@ -1,5 +1,5 @@
-import { Acao } from "../enum/acao";
-import { Recurso } from "../enum/recurso";
+import { Acao } from "../config/acao";
+import { Recurso } from "../config/recurso";
 import { Permissao } from "../types";
 
 export const estudante: Permissao[] = [

@@ -1,7 +1,7 @@
 import { Model } from "mongoose";
 import { BaseAction } from "../BaseAction/BaseAction";
 import { AppError, HttpCode } from "../AppError/AppError";
-import { Acao } from "@/commons/auth/enum/acao";
+import { Acao } from "@/commons/auth/config/acao";
 
 export class BaseActionCadastrar<T> extends BaseAction<Partial<T>, T> {
   protected isPublic = false;

@@ -15,7 +15,7 @@ import {
 import { signOut } from "next-auth/react";
 import { StringUtil } from "@/utils/StringUtil";
 import Link from "next/link";
-import {useAuthComponente} from "@/commons/auth/hooks/useAuthComponente/useAuthComponente"
+import {useAuthComponente} from "@/commons/auth/hooks/useAuthComponente"
 
 
 export default function UserHeader() {

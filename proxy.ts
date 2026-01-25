@@ -2,7 +2,7 @@ import { withAuth, NextRequestWithAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import {possuiPermissao} from "@/commons/auth/autenticador";
 import {ProxyUtil} from "@/utils/ProxyUtil";
-import { Acao } from "./commons/auth/enum/acao";
+import { Acao } from "./commons/auth/config/acao";
 
 function proxy(request: NextRequestWithAuth) {
   const token = request.nextauth.token;

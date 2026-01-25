@@ -11,5 +11,6 @@ export function useAuthComponente() {
     isAuthenticated,
     isLoading,
     user: session?.user,
+    cargo: session?.user?.cargo,
   };
 }

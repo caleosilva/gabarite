@@ -8,7 +8,7 @@ import {
 } from "@/commons/interface/AbstractTableController/AbstractTableController";
 import { UsuarioType } from "@/models/Usuario";
 import { Badge } from "@/components/ui/badge";
-import { getCargoByValue, CargoType } from "@/commons/auth/enum/cargo";
+import { getCargoByValue, CargoType } from "@/commons/auth/config/cargo";
 
 
 export class UsuarioController extends AbstractTableController<UsuarioType> {
@@ -82,7 +82,7 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
     return data;
   }
 
-  // Personalização dos botões usando o ConstrutorBotao que você enviou
+  // Personalização dos botões
   configurarAcoesPadrao(builder: ConstrutorAcoesPadrao): void {
     builder.adicionar.setRotulo(null);
     builder.editar.setRotulo(null);

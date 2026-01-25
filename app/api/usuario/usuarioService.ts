@@ -5,7 +5,7 @@ import { BaseActionEditar } from "@/commons/servidor/BaseActionEditar/BaseAction
 import { BaseActionExcluir } from "@/commons/servidor/BaseActionExcluir/BaseActionExcluir";
 import { BaseActionVisualizar } from "@/commons/servidor/BaseActionVisualizar/BaseActionVisualizar";
 import {CadastrarUsuarioAction} from "@/app/api/usuario/actions/ActionCadastrarUsuario"
-import { Recurso } from "@/commons/auth/enum/recurso";
+import { Recurso } from "@/commons/auth/config/recurso";
 
 export class UsuarioService extends BaseService<UsuarioType> {
   protected recurso = Recurso.USUARIO.value;

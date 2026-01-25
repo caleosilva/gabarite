@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { possuiPermissao } from "@/commons/auth/autenticador";
-import { Acao } from "@/commons/auth/enum/acao";
+import { Acao } from "@/commons/auth/config/acao";
 
 export interface MenuItem {
   title: string;

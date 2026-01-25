@@ -8,9 +8,9 @@ import FormFieldBasic, {
 } from "@/commons/componentes/FormField/FormField";
 
 import FormFieldSelect from "@/commons/componentes/FormFieldSelect/FormFieldSelect"
-import {getOpcoesCargo} from "@/commons/auth/enum/cargo";
+import {getOpcoesCargo} from "@/commons/auth/config/cargo";
 import { UsuarioType } from "@/models/Usuario";
-import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente/useAuthComponente";
+import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente";
 
 interface FormUsuarioProps {
   form: UseFormReturn<any>;

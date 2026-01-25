@@ -2,7 +2,7 @@ import { Model } from "mongoose";
 import { BaseActionCadastrar } from "@/commons/servidor/BaseActionCadastrar/BaseActionCadastrar";
 import { AppError, HttpCode } from "@/commons/servidor/AppError/AppError";
 import { BancaType} from "@/models/Banca";
-import { Recurso } from "@/commons/auth/enum/recurso";
+import { Recurso } from "@/commons/auth/config/recurso";
 
 export class CadastrarBancaAction extends BaseActionCadastrar<BancaType> {
   constructor(model: Model<BancaType>) {

@@ -59,9 +59,9 @@ export class BancaTableController extends AbstractTableController<BancaType> {
 
   // Personalização dos botões
   configurarAcoesPadrao(builder: ConstrutorAcoesPadrao): void {
-    builder.adicionar.removerRotulo();
-    builder.visualizar.ocultar();
-    builder.editar.removerRotulo();
-    builder.excluir.removerRotulo();
+    builder.adicionar.setRotulo(null);
+    builder.editar.setRotulo(null);
+    builder.excluir.setRotulo(null);
+    builder.visualizar.setVisivel(false);
   }
 }

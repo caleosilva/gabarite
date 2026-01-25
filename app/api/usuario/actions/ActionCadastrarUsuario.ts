@@ -3,7 +3,7 @@ import { BaseActionCadastrar } from "@/commons/servidor/BaseActionCadastrar/Base
 import { AppError, HttpCode } from "@/commons/servidor/AppError/AppError";
 import { UsuarioType } from "@/models/Usuario";
 import {CryptoUtils} from "@/utils/CryptoUtils"
-import { Recurso } from "@/commons/auth/enum/recurso";
+import { Recurso } from "@/commons/auth/config/recurso";
 
 export class CadastrarUsuarioAction extends BaseActionCadastrar<UsuarioType> {
 

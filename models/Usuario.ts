@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Cargo } from "@/commons/auth/enum/cargo";
+import { Cargo } from "@/commons/auth/config/cargo";
 
 const usuarioSchema = new mongoose.Schema(
   {

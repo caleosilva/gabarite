@@ -1,4 +1,4 @@
-import { RecursoType, Recurso } from "@/commons/auth/enum/recurso";
+import { RecursoType, Recurso } from "@/commons/auth/config/recurso";
 
 export class ProxyUtil {
 
