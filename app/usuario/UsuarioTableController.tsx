@@ -84,9 +84,9 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
 
   // Personalização dos botões usando o ConstrutorBotao que você enviou
   configurarAcoesPadrao(builder: ConstrutorAcoesPadrao): void {
-    builder.adicionar.removerRotulo();
-    builder.editar.removerRotulo();
-    builder.excluir.removerRotulo();
-    builder.visualizar.removerRotulo();
+    builder.adicionar.setRotulo(null);
+    builder.editar.setRotulo(null);
+    builder.excluir.setRotulo(null);
+    builder.visualizar.setRotulo(null);
   }
 }

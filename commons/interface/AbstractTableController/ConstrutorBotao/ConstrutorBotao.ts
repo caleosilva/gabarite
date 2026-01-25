@@ -33,49 +33,33 @@ export class ConstrutorBotao {
     };
   }
 
-  definirRotulo(rotulo: string): this {
+  setRotulo(rotulo: string | null): this {
     this.config.label = rotulo;
-    this.config.tooltip = rotulo;
     return this;
   }
 
-  removerRotulo(): this {
-    this.config.label = null;
-    return this;
-  }
-
-  definirIcone(icone: ReactNode): this {
+  setIcone(icone: ReactNode | null): this {
     this.config.icon = icone;
     return this;
   }
 
-  removerIcone(): this {
-    this.config.icon = null;
-    return this;
-  }
-
-  definirVariante(variante: ConfiguracaoBotao["variant"]): this {
+  setVariante(variante: ConfiguracaoBotao["variant"]): this {
     this.config.variant = variante;
     return this;
   }
 
-  definirTooltip(texto: string): this {
+  setVisivel(visivel: boolean): this {
+    this.config.visible = visivel;
+    return this;
+  }
+
+  setDesabilitado(desabilitado: boolean): this {
+    this.config.disabled = desabilitado;
+    return this;
+  }
+
+  setTooltip(texto: string): this {
     this.config.tooltip = texto;
-    return this;
-  }
-
-  ocultar(): this {
-    this.config.visible = false;
-    return this;
-  }
-
-  exibir(): this {
-    this.config.visible = true;
-    return this;
-  }
-
-  desabilitar(estaDesabilitado = true): this {
-    this.config.disabled = estaDesabilitado;
     return this;
   }
 
