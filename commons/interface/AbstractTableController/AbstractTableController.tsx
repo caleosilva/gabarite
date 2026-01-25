@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ReactNode } from "react";
 import { Plus, Pencil, Eye, Trash2 } from "lucide-react";
-import {possuiPermissao} from "@/commons/auth/autenticador";
+import {possuiPermissao} from "@/commons/auth/possuiPermissao";
 
 import {
   ConstrutorBotao,

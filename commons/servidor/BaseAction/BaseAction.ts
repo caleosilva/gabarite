@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { possuiPermissao } from "@/commons/auth/autenticador";
+import { possuiPermissao } from "@/commons/auth/possuiPermissao";
 import { authOptions } from "@/lib/auth";
 import { HttpCode, AppError } from "@/commons/servidor/AppError/AppError";
 

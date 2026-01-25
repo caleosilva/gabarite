@@ -1,6 +1,6 @@
 import { withAuth, NextRequestWithAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import {possuiPermissao} from "@/commons/auth/autenticador";
+import {possuiPermissao} from "@/commons/auth/possuiPermissao";
 import {ProxyUtil} from "@/utils/ProxyUtil";
 import { Acao } from "./commons/auth/config/acao";
 

@@ -10,7 +10,7 @@ import FormFieldBasic, {
 import FormFieldSelect from "@/commons/componentes/FormFieldSelect/FormFieldSelect"
 import {getOpcoesCargo} from "@/commons/auth/config/cargo";
 import { UsuarioType } from "@/models/Usuario";
-import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente";
+import { useAuthClient } from "@/commons/auth/hooks/useAuthClient";
 
 interface FormUsuarioProps {
   form: UseFormReturn<any>;
@@ -26,7 +26,7 @@ export function FormUsuario({
   idForm,
   isEditMode = false,
 }: FormUsuarioProps) {
-  const { isAuthenticated } = useAuthComponente();
+  const { isAuthenticated } = useAuthClient();
 
   return (
     <Form {...form}>

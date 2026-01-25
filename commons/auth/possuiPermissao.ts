@@ -1,12 +1,4 @@
-import { Cargo } from "./config/cargo";
-import { administrador } from "./permissoes/administrador";
-import { estudante } from "./permissoes/estudante";
-import { Permissao } from "./types";
-
-export const CONFIGURACAO_CARGOS: Record<string, Permissao[]> = {
-  [Cargo.ADMINISTRADOR.value]: administrador,
-  [Cargo.ESTUDANTE.value]: estudante,
-};
+import { CONFIGURACAO_CARGOS } from "@/commons/auth/config/config-cargos";
 
 export function possuiPermissao(
   cargo: string,

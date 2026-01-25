@@ -15,11 +15,11 @@ import {
 import { signOut } from "next-auth/react";
 import { StringUtil } from "@/utils/StringUtil";
 import Link from "next/link";
-import {useAuthComponente} from "@/commons/auth/hooks/useAuthComponente"
+import {useAuthClient} from "@/commons/auth/hooks/useAuthClient"
 
 
 export default function UserHeader() {
-    const {user} = useAuthComponente();
+    const {user} = useAuthClient();
 
     return (
         <DropdownMenu>

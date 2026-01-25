@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { loginSchema, LoginValues } from "./loginSchema";
-import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente"
+import { useAuthClient } from "@/commons/auth/hooks/useAuthClient"
 import {CryptoUtils} from "@/utils/CryptoUtils"
 
 export function useLoginForm() {
-  const {isAuthenticated} = useAuthComponente();
+  const {isAuthenticated} = useAuthClient();
   const router = useRouter();
   
   const [isSubmitting, setIsSubmitting] = useState(false);

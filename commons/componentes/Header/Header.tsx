@@ -3,10 +3,10 @@
 import { Navbar } from "./NavBar/NavBar" 
 import UserHeader from "./UserHeader/UserHeader"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useAuthComponente } from "@/commons/auth/hooks/useAuthComponente"
+import { useAuthClient } from "@/commons/auth/hooks/useAuthClient"
 
 export function Header() {
-  const {isAuthenticated, isLoading, user} = useAuthComponente();
+  const {isAuthenticated, isLoading, user} = useAuthClient();
 
   const primeiroNome = user?.name?.split(" ")[0] || "Usuário"
 

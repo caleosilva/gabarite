@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 
-export function useAuthComponente() {
+export function useAuthClient() {
   const { data: session, status } = useSession();
 
   const isAuthenticated = status === "authenticated";
