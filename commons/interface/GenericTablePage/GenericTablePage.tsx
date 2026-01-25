@@ -13,23 +13,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Search, XCircle } from "lucide-react";
+import { Search, XCircle, AlertCircle } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
-import { AlertCircle } from "lucide-react";
 import { AbstractTableController } from "@/commons/interface/AbstractTableController/AbstractTableController";
+import { ConfiguracaoBotao } from "@/commons/interface/AbstractTableController/ConstrutorBotao/ConstrutorBotao";
 
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { createFromNextReadableStream } from "next/dist/client/components/router-reducer/fetch-server-response";
+
+// Helper para renderizar (Ícone + Texto) ou (Só Ícone) ou (Só Texto)
+const RenderButtonContent = ({ config }: { config: ConfiguracaoBotao }) => (
+  <>
+    {config.icon}
+    {config.icon && config.label && (
+      <span className="ml-2">{config.label}</span>
+    )}
+    {!config.icon && config.label}
+  </>
+);
 
 export function GenericTablePage<T>({
   controlador,
@@ -43,6 +51,11 @@ export function GenericTablePage<T>({
   const botoesPadrao = useMemo(
     () => controlador.getFinalStandardConfigs(),
     [controlador],
+  );
+
+  const acoesExtras = useMemo(
+    () => controlador.obterAcoesPersonalizadas(state.itemUnicoSelecionado),
+    [controlador, state.itemUnicoSelecionado],
   );
 
   // Colunas memorizadas com checkbox
@@ -66,7 +79,7 @@ export function GenericTablePage<T>({
         size: 40,
         minSize: 40,
         maxSize: 40,
-        enableResizing: false, // Desabilita redimensionamento
+        enableResizing: false,
       },
       ...controlador.obterColunas(),
     ],
@@ -78,37 +91,98 @@ export function GenericTablePage<T>({
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-tight">{titulo}</h1>
 
-        {/* Barra de Ações (Toolbar) */}
+        {/* --- BARRA DE AÇÕES (TOOLBAR) --- */}
         <div className="flex flex-wrap items-center gap-2 border-b pb-4">
-          <Button
-            onClick={() => controlador.aoClicarAdicionar()}
-            variant={botoesPadrao.add.variant}
-          >
-            {botoesPadrao.add.icon} {botoesPadrao.add.label}
-          </Button>
+          {/* 1. Botão Adicionar */}
+          {botoesPadrao.add.visible && (
+            <Button
+              onClick={() => controlador.aoClicarAdicionar()}
+              variant={botoesPadrao.add.variant || "default"}
+              disabled={botoesPadrao.add.disabled}
+              title={botoesPadrao.add.tooltip}
+            >
+              <RenderButtonContent config={botoesPadrao.add} />
+            </Button>
+          )}
 
-          <div className="h-6 w-px bg-border mx-2" />
+          {/* Separador: Aparece se tiver Adicionar E (Editar OU Visualizar OU Excluir) */}
+          {botoesPadrao.add.visible &&
+            (botoesPadrao.edit.visible ||
+              botoesPadrao.view.visible ||
+              botoesPadrao.delete.visible) && (
+              <div className="h-6 w-px bg-border mx-2" />
+            )}
 
-          <Button
-            disabled={!state.itemUnicoSelecionado}
-            onClick={() =>
-              controlador.aoClicarEditar(state.itemUnicoSelecionado!)
-            }
-            variant="outline"
-          >
-            Editar
-          </Button>
+          {/* 3. Botão Visualizar */}
+          {botoesPadrao.view.visible && (
+            <Button
+              disabled={
+                !state.itemUnicoSelecionado || botoesPadrao.view.disabled
+              }
+              onClick={() =>
+                controlador.aoClicarVisualizar(state.itemUnicoSelecionado!)
+              }
+              variant={botoesPadrao.view.variant || "secondary"}
+              title={botoesPadrao.view.tooltip}
+            >
+              <RenderButtonContent config={botoesPadrao.view} />
+            </Button>
+          )}
 
-          <Button
-            disabled={!state.existeSelecao}
-            onClick={() =>
-              controlador.aoClicarExcluir(state.itemUnicoSelecionado!)
-            }
-            variant="destructive"
-          >
-            Excluir
-          </Button>
+          {/* 2. Botão Editar */}
+          {botoesPadrao.edit.visible && (
+            <Button
+              disabled={
+                !state.itemUnicoSelecionado || botoesPadrao.edit.disabled
+              }
+              onClick={() =>
+                controlador.aoClicarEditar(state.itemUnicoSelecionado!)
+              }
+              variant={botoesPadrao.edit.variant || "outline"}
+              title={botoesPadrao.edit.tooltip}
+            >
+              <RenderButtonContent config={botoesPadrao.edit} />
+            </Button>
+          )}
+
+          {/* 4. Botão Excluir */}
+          {botoesPadrao.delete.visible && (
+            <Button
+              disabled={!state.existeSelecao || botoesPadrao.delete.disabled}
+              onClick={() =>
+                controlador.aoClicarExcluir(state.itemUnicoSelecionado!)
+              }
+              variant={botoesPadrao.delete.variant || "destructive"}
+              title={botoesPadrao.delete.tooltip}
+            >
+              <RenderButtonContent config={botoesPadrao.delete} />
+            </Button>
+          )}
         </div>
+
+        {/* Separador: Só mostra se houver botões padrão E botões extras */}
+        {(botoesPadrao.add.visible ||
+          botoesPadrao.edit.visible ||
+          botoesPadrao.delete.visible) &&
+          acoesExtras.length > 0 && <div className="h-6 w-px bg-border mx-2" />}
+
+        {/* Renderiza as Ações Personalizadas */}
+        {acoesExtras.map((acao, index) => (
+          <Button
+            key={`${acao.label}-${index}`}
+            onClick={acao.onClick}
+            variant={acao.variant || "secondary"} // Default para secondary se não informado
+            disabled={acao.disabled}
+            title={acao.tooltip}
+          >
+            {acao.icon && (
+              <span className={acao.label ? "mr-2" : ""}>{acao.icon}</span>
+            )}
+            {acao.label}
+          </Button>
+        ))}
+
+        {/* -------------------------------- */}
 
         {/* Barra de Busca */}
         <div className="flex flex-col sm:flex-row items-center gap-2 bg-muted/30 p-4 rounded-lg border">

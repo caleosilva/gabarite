@@ -35,6 +35,28 @@ export default function UsuariosPage() {
   const controlador = useMemo(() => new UsuarioController(handlers), []);
   const tableState = useGenericTable(controlador, update);
 
+  function getDialogAcoes() {
+    return (
+      <>
+        <CadastrarEditarUsuario
+          open={openCadastro}
+          setOpen={setOpenCadastro}
+          usuario={usuarioSelecionado}
+          update={!!update}
+          setUpdate={() => setUpdate((prev) => prev + 1)}
+        />
+
+        <ExcluirUsuario
+          open={openExcluir}
+          setOpen={setOpenExcluir}
+          usuario={usuarioSelecionado}
+          onSuccess={() => setUpdate((prev) => prev + 1)}
+          setErroAtivo={tableState.setErroAtivo}
+        />
+      </>
+    );
+  }
+
   return (
     <div className="w-full">
       <GenericTablePage
@@ -43,21 +65,7 @@ export default function UsuariosPage() {
         state={tableState}
       />
 
-      <CadastrarEditarUsuario
-        open={openCadastro}
-        setOpen={setOpenCadastro}
-        usuario={usuarioSelecionado}
-        update={!!update}
-        setUpdate={() => setUpdate((prev) => prev + 1)}
-      />
-
-      <ExcluirUsuario
-        open={openExcluir}
-        setOpen={setOpenExcluir}
-        usuario={usuarioSelecionado}
-        onSuccess={() => setUpdate((prev) => prev + 1)}
-        setErroAtivo={tableState.setErroAtivo}
-      />
+      {getDialogAcoes()}
     </div>
   );
 }

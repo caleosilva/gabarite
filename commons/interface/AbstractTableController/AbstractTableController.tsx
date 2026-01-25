@@ -19,6 +19,13 @@ export interface FiltroBusca {
   value: string;
 }
 
+export interface TableActions<T> {
+  onAdd?: () => void;
+  onEdit?: (item: T) => void;
+  onView?: (item: T) => void;
+  onDelete?: (item: T) => void;
+}
+
 // Agrupa os construtores dos 4 botões padrões (CRUD)
 export class ConstrutorAcoesPadrao {
   public adicionar = new ConstrutorBotao(
@@ -56,6 +63,8 @@ export interface BotaoAcao {
 // --- Classe Base do Controlador ---
 
 export abstract class AbstractTableController<T> {
+  constructor(protected actions?: TableActions<T>) {}
+
   // 1. Definições Obrigatórias
   // Retorna o ID único da entidade (obrigatório para seleção e ações)
   abstract getRowId(item: T): string;
@@ -99,11 +108,38 @@ export abstract class AbstractTableController<T> {
     };
   }
 
-  // 3. Ações do Usuário (Obrigatórias)
-  abstract aoClicarAdicionar(): void;
-  abstract aoClicarEditar(item: T): void;
-  abstract aoClicarVisualizar(item: T): void;
-  abstract aoClicarExcluir(item: T): void;
+  // 3. Ações do Usuário
+  aoClicarAdicionar(): void {
+    if (this.actions?.onAdd) {
+      this.actions.onAdd();
+    } else {
+      console.warn("Ação onAdd não definida no controller.");
+    }
+  }
+
+  aoClicarEditar(item: T): void {
+    if (this.actions?.onEdit) {
+      this.actions.onEdit(item);
+    } else {
+      console.warn("Ação onEdit não definida no controller.");
+    }
+  }
+
+  aoClicarVisualizar(item: T): void {
+    if (this.actions?.onView) {
+      this.actions.onView(item);
+    } else {
+      console.warn("Ação onView não definida no controller.");
+    }
+  }
+
+  aoClicarExcluir(item: T): void {
+    if (this.actions?.onDelete) {
+      this.actions.onDelete(item);
+    } else {
+      console.warn("Ação onDelete não definida no controller.");
+    }
+  }
 
   // 4. Ações Extras
   // Lista de botões além do CRUD (ex: Exportar, Baixar PDF)

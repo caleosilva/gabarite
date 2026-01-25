@@ -4,21 +4,16 @@ import {
   ResultadoPaginado,
   FiltroBusca,
   ConstrutorAcoesPadrao,
+  TableActions
 } from "@/commons/interface/AbstractTableController/AbstractTableController";
 import { UsuarioType } from "@/models/Usuario";
 import { Badge } from "@/components/ui/badge";
 import { getCargoByValue, CargoType } from "@/commons/auth/enum/cargo";
 
+
 export class UsuarioController extends AbstractTableController<UsuarioType> {
-  constructor(
-    private actions: {
-      onAdd: () => void;
-      onEdit: (item: UsuarioType) => void;
-      onView: (item: UsuarioType) => void;
-      onDelete: (item: UsuarioType) => void;
-    },
-  ) {
-    super();
+  constructor(actions: TableActions<UsuarioType>) {
+    super(actions); 
   }
 
   // Define as colunas que aparecerão na DataTable
@@ -89,21 +84,9 @@ export class UsuarioController extends AbstractTableController<UsuarioType> {
 
   // Personalização dos botões usando o ConstrutorBotao que você enviou
   configurarAcoesPadrao(builder: ConstrutorAcoesPadrao): void {
-    builder.adicionar.definirRotulo("Novo Usuário").definirVariante("default");
-    builder.editar.definirRotulo("Editar Usuário").definirVariante("outline");
-  }
-
-  // Mapeamento das ações disparadas pelos botões da GenericPage
-  aoClicarAdicionar() {
-    this.actions.onAdd();
-  }
-  aoClicarEditar(item: UsuarioType) {
-    this.actions.onEdit(item);
-  }
-  aoClicarVisualizar(item: UsuarioType) {
-    this.actions.onView(item);
-  }
-  aoClicarExcluir(item: UsuarioType) {
-    this.actions.onDelete(item);
+    builder.adicionar.removerRotulo();
+    builder.editar.removerRotulo();
+    builder.excluir.removerRotulo();
+    builder.visualizar.removerRotulo();
   }
 }
