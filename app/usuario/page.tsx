@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { GenericTablePage } from "@/commons/interface/GenericTablePage/GenericTablePage";
-import { useGenericTable } from "@/commons/interface/useGenericTable/useGenericTable";
+import { GenericTablePage } from "@/commons/componentes/GenericTablePage/GenericTablePage";
+import { useGenericTable } from "@/commons/componentes/hooks/useGenericTable/useGenericTable";
 import { UsuarioController } from "./UsuarioTableController";
 import { UsuarioType } from "@/models/Usuario";
 

@@ -2,8 +2,8 @@
 
 import React, { useState, useMemo } from "react";
 import { BancaType } from "@/models/Banca";
-import { GenericTablePage } from "@/commons/interface/GenericTablePage/GenericTablePage";
-import { useGenericTable } from "@/commons/interface/useGenericTable/useGenericTable";
+import { GenericTablePage } from "@/commons/componentes/GenericTablePage/GenericTablePage";
+import { useGenericTable } from "@/commons/componentes/hooks/useGenericTable/useGenericTable";
 
 import {BancaTableController} from "@/app/banca/BancaTableController";
 import CadastrarEditarBanca from "./cadastrar-editar/CadastrarEditarBanca";
