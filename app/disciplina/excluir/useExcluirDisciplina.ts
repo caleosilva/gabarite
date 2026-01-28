@@ -1,29 +1,29 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { BancaType } from "@/models/Banca";
+import { DisciplinaType } from "@/models/Disciplina";
 
-interface UseExcluirBancaProps {
-  banca: BancaType | undefined;
+interface UseExcluirDisciplinaProps {
+  disciplina: DisciplinaType | undefined;
   onSuccess: () => void;
   setOpen: (open: boolean) => void;
 }
 
-export function useExcluirBanca({
-  banca,
+export function useExcluirDisciplina({
+  disciplina,
   onSuccess,
   setOpen,
-}: UseExcluirBancaProps) {
+}: UseExcluirDisciplinaProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleExcluir = async () => {
-    if (!banca) return;
+    if (!disciplina) return;
 
-    const toastId = toast.loading("Excluindo banca...");
+    const toastId = toast.loading("Excluindo disciplina...");
 
     try {
       setIsSubmitting(true);
 
-      const response = await fetch(`/api/banca?id=${banca._id}`, {
+      const response = await fetch(`/api/disciplina?id=${disciplina._id}`, {
         method: "DELETE",
       });
 
@@ -31,13 +31,13 @@ export function useExcluirBanca({
 
       if (!response.ok) {
         toast.error(data.titulo || "Erro ao Excluir", {
-          description: data.msg || "Não foi possível excluir a banca.",
+          description: data.msg || "Não foi possível excluir a disciplina.",
           id: toastId,
         });
         return;
       }
 
-      toast.success("Banca removida", {
+      toast.success("Disciplina removida", {
         description: "O registro foi excluído.",
         id: toastId,
       });

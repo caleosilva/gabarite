@@ -1,15 +1,23 @@
-import {auditSchema} from "@/models/AuditSchema";
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const disciplinaSchema = new mongoose.Schema({
-    nome: { type: String, required: true, unique: true, trim: true },
-        
-    // --- Controle de Sistema --
-    ...auditSchema
-    },
-    { 
-        timestamps: true 
-    }
+const disciplinaSchema = new mongoose.Schema(
+  {
+    nome: { type: String, required: true, trim: true },
+  },
+  {
+    timestamps: true,
+  },
 );
 
-export const Disciplina = mongoose.models.Disciplinas || mongoose.model("Disciplinas", disciplinaSchema);
+export const Disciplina =
+  mongoose.models.Disciplinas ||
+  mongoose.model("Disciplinas", disciplinaSchema);
+
+  type DisciplinaCampos = mongoose.InferSchemaType<typeof disciplinaSchema>;
+  
+  export type DisciplinaType = DisciplinaCampos & {
+    _id: mongoose.Types.ObjectId;
+    createdAt?: Date;
+    updatedAt?: Date;
+  };
+  
